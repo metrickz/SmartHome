@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ConstraintLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <SeekBar
+        android:id="@+id/seekBar_setTemp"
+        android:layout_width="234dp"
+        android:layout_height="14dp"
+        android:layout_marginTop="5dp"
+        android:thumbTint="@color/purple_700"
+        app:layout_constraintStart_toStartOf="@+id/lbl_temperature"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_temperature" />
+
+    <Button
+        android:id="@+id/btn_shuttersDown"
+        android:layout_width="89dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="15dp"
+        android:text="DOWN"
+        app:layout_constraintStart_toEndOf="@+id/btn_shuttersUp"
+        app:layout_constraintTop_toTopOf="@+id/btn_shuttersUp" />
+
+    <TextView
+        android:id="@+id/lbl_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="15dp"
+        android:text="Smart Home"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/lbl_light"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="20dp"
+        android:text="Lights"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_title" />
+
+    <Button
+        android:id="@+id/btn_lightOn"
+        android:layout_width="89dp"
+        android:layout_height="42dp"
+        android:text="ON"
+        app:layout_constraintBottom_toBottomOf="@+id/btn_lightOff"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar_light" />
+
+    <Button
+        android:id="@+id/btn_lightOff"
+        android:layout_width="89dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="5dp"
+        android:text="OFF"
+        app:layout_constraintStart_toStartOf="@+id/lbl_light"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_light" />
+
+    <SeekBar
+        android:id="@+id/seekBar_light"
+        android:layout_width="234dp"
+        android:layout_height="14dp"
+        android:thumbTint="@color/purple_700"
+        app:layout_constraintStart_toStartOf="@+id/btn_lightOff"
+        app:layout_constraintTop_toBottomOf="@+id/btn_lightOff" />
+
+    <TextView
+        android:id="@+id/lbl_temperature"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Temperature"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_tiltWindow"
+        app:layout_constraintTop_toBottomOf="@+id/btn_tiltWindow" />
+
+    <Button
+        android:id="@+id/btn_tiltWindow"
+        android:layout_width="89dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="5dp"
+        android:text="TILT"
+        app:layout_constraintStart_toStartOf="@+id/lbl_tiltWindow"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_tiltWindow" />
+
+    <TextView
+        android:id="@+id/lbl_Shutters"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Shutters"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_light"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_light" />
+
+    <Button
+        android:id="@+id/btn_shuttersUp"
+        android:layout_width="89dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="5dp"
+        android:text="UP"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Shutters"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_Shutters" />
+
+    <TextView
+        android:id="@+id/lbl_tiltWindow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Tilt Window"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_Shutters"
+        app:layout_constraintTop_toBottomOf="@+id/btn_shuttersUp" />
+
+    <TextView
+        android:id="@+id/lbl_tempMax"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="28°"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar_setTemp"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_setTemp" />
+
+    <TextView
+        android:id="@+id/lbl_tempMin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="20°"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/seekBar_setTemp"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar_setTemp" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="5dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_tempMin"
+        tools:layout_editor_absoluteX="16dp" />
+
+    <TextView
+        android:id="@+id/lbl_airPressure"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Air pressure"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_temperature"
+        app:layout_constraintTop_toBottomOf="@+id/divider" />
+
+    <TextView
+        android:id="@+id/lbl_humidity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Humidity"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_airPressure"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_airPressure" />
+
+    <TextView
+        android:id="@+id/lbl_brightness"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Brightness"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_humidity"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_humidity" />
+
+    <TextView
+        android:id="@+id/lbl_currentTemp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Temperature"
+        android:textSize="24sp"
+        app:layout_constraintStart_toStartOf="@+id/lbl_brightness"
+        app:layout_constraintTop_toBottomOf="@+id/lbl_brightness" />
+</androidx.constraintlayout.widget.ConstraintLayout>
