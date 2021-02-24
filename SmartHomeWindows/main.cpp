@@ -1,5 +1,8 @@
 #include "tcpsocket.h"
+#include "server.h"
 #include "mainwindow.h"
+
+
 
 #include <QApplication>
 
@@ -7,8 +10,8 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
     MainWindow w;
-    tcpSocket socket;
+    Server server;
+    server.startServer();
     w.show();
-    socket.doConnect();
     return a.exec();
 }

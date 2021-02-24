@@ -20,7 +20,7 @@ public class Sender extends AsyncTask<String, Void, Void> {
         String data = voids[0];
 
         try {
-            socket = new Socket("127.0.0.1",1337);
+            socket = new Socket("10.0.2.2",1337);
             printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.println(data);
             printWriter.flush();

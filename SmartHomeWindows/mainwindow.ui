@@ -14,7 +14,7 @@
    <string>Obis Smart Home Control System</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="pushButton">
+   <widget class="QPushButton" name="btn_lightOff">
     <property name="geometry">
      <rect>
       <x>50</x>
@@ -27,7 +27,7 @@
      <string>OFF</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="pushButton_2">
+   <widget class="QPushButton" name="btn_lightOn">
     <property name="geometry">
      <rect>
       <x>160</x>
@@ -196,8 +196,8 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>230</y>
+      <x>370</x>
+      <y>240</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -214,8 +214,8 @@
    <widget class="QLabel" name="label_9">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>300</y>
+      <x>370</x>
+      <y>310</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -232,8 +232,8 @@
    <widget class="QLabel" name="label_10">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>200</y>
+      <x>370</x>
+      <y>210</y>
       <width>111</width>
       <height>21</height>
      </rect>
@@ -250,8 +250,8 @@
    <widget class="QLabel" name="label_11">
     <property name="geometry">
      <rect>
-      <x>220</x>
-      <y>260</y>
+      <x>370</x>
+      <y>270</y>
       <width>111</width>
       <height>31</height>
      </rect>
@@ -263,16 +263,6 @@
     </property>
     <property name="text">
      <string>Brightness</string>
-    </property>
-   </widget>
-   <widget class="QTextEdit" name="textEdit">
-    <property name="geometry">
-     <rect>
-      <x>390</x>
-      <y>360</y>
-      <width>271</width>
-      <height>21</height>
-     </rect>
     </property>
    </widget>
   </widget>

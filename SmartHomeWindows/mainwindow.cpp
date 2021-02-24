@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "server.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -14,3 +15,9 @@ MainWindow::~MainWindow()
 }
 
 
+
+
+void MainWindow::on_btn_lightOff_clicked()
+{
+
+}

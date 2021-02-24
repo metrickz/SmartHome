@@ -1,6 +1,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "server.h"
+
 #include <QMainWindow>
 #include <QFileDialog>
 #include <QMessageBox>
@@ -19,8 +21,10 @@ public:
 private slots:
 
 
+    void on_btn_lightOff_clicked();
+
 private:
     Ui::MainWindow *ui;
-    QString data = "";
+
 };
 #endif // MAINWINDOW_H
