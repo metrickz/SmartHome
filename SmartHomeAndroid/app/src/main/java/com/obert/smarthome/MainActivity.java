@@ -2,6 +2,9 @@ package com.obert.smarthome;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,7 +13,7 @@ import android.widget.SeekBar;
 
 public class MainActivity extends AppCompatActivity {
 
-    Button lightsOff, lightsOn, shuttersUp, shuttersDown, tiltWindow;
+    Button lightsOff, lightsOn, shuttersUp, shuttersDown, tiltWindow, btn_settings;
     SeekBar light, setTemp;
 
     @Override
@@ -24,13 +27,19 @@ public class MainActivity extends AppCompatActivity {
         shuttersUp = findViewById(R.id.btn_shuttersUp);
         shuttersDown = findViewById(R.id.btn_shuttersDown);
         tiltWindow = findViewById(R.id.btn_tiltWindow);
+        btn_settings = findViewById(R.id.btn_settings);
 
         // Seekbars
         light = findViewById(R.id.seekBar_light);
         setTemp = findViewById(R.id.seekBar_setTemp);
 
-
-
+        btn_settings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, Settings.class);
+                startActivity(intent);
+            }
+        });
 
 
        lightsOff.setOnClickListener(new View.OnClickListener() {

@@ -14,12 +14,14 @@ public class Sender extends AsyncTask<String, Void, Void> {
     DataOutputStream dataOutputStream;
     PrintWriter printWriter;
 
+
     @Override
     protected Void doInBackground(String... voids) {
 
         String data = voids[0];
 
         try {
+
             socket = new Socket("10.0.2.2",1337);
             printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.println(data);

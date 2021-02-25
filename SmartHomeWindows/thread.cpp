@@ -1,5 +1,4 @@
 #include "thread.h"
-#include<ui_mainwindow.h>
 
 Thread::Thread(int ID, QObject *parent) : QThread(parent)
 {
