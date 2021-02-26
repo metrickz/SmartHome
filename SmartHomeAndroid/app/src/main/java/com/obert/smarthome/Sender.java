@@ -26,8 +26,8 @@ public class Sender extends AsyncTask<String, Void, Void> {
             printWriter = new PrintWriter(socket.getOutputStream());
             printWriter.println(data);
             printWriter.flush();
-            printWriter.close();
-            socket.close();
+            //printWriter.close();
+            //socket.close();
             Log.d("DATA","Data written");
 
         } catch (IOException e) {

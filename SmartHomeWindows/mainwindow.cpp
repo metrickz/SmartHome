@@ -7,6 +7,8 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    connect(Server::Server,)
 }
 
 MainWindow::~MainWindow()

@@ -46,7 +46,9 @@ public class MainActivity extends AppCompatActivity {
            @Override
            public void onClick(View view) {
                Sender sender = new Sender();
-               sender.execute("TestString");
+               String device = Integer.toBinaryString(0001);
+               String value = Integer.toBinaryString(255);
+               sender.execute(device);
                Log.d("DATA","Executed");
            }
        });
