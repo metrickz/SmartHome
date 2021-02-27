@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
+    <width>984</width>
     <height>412</height>
    </rect>
   </property>
@@ -263,6 +263,62 @@
     </property>
     <property name="text">
      <string>Brightness</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="lineEdit_Port">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>30</y>
+      <width>113</width>
+      <height>21</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Listen">
+    <property name="geometry">
+     <rect>
+      <x>830</x>
+      <y>30</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Listen</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="pushButton_Send">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>140</y>
+      <width>80</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Send</string>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_Recv">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>60</y>
+      <width>121</width>
+      <height>70</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QTextEdit" name="textEdit_Send">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>140</y>
+      <width>121</width>
+      <height>21</height>
+     </rect>
     </property>
    </widget>
   </widget>
