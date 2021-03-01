@@ -91,6 +91,8 @@ void MainWindow::server_New_Connect()
     ui->pushButton_Send->setEnabled(true);
 
     qDebug() << "A Client connect!";
+    socket->write("AUTHENTICATION_NECESSARY");
+    socket->flush();
 }
 
 void MainWindow::socket_Read_Data()

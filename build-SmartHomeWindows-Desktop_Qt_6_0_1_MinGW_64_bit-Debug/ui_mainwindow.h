@@ -57,6 +57,7 @@ public:
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
         MainWindow->resize(984, 412);
+        MainWindow->setStyleSheet(QString::fromUtf8(""));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
         btn_lightOff = new QPushButton(centralwidget);
@@ -132,7 +133,7 @@ public:
         pushButton_Send->setGeometry(QRect(820, 140, 80, 21));
         textEdit_Recv = new QTextEdit(centralwidget);
         textEdit_Recv->setObjectName(QString::fromUtf8("textEdit_Recv"));
-        textEdit_Recv->setGeometry(QRect(690, 60, 121, 70));
+        textEdit_Recv->setGeometry(QRect(690, 60, 104, 70));
         textEdit_Send = new QTextEdit(centralwidget);
         textEdit_Send->setObjectName(QString::fromUtf8("textEdit_Send"));
         textEdit_Send->setGeometry(QRect(690, 140, 121, 21));
