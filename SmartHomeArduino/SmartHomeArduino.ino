@@ -1,24 +1,34 @@
+#include <ServoTimer2.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
 #include <Stepper.h>
 #include "DHT.h"
 
+// SETUP PINS
+#define AC_LIGHT 9
+
+
 DHT dht(2, DHT11);
 Stepper Motor(2048, 4,6,5,7);
+ServoTimer2 servo_tiltWindow;
+
 
 void setup() {
   
   Serial.begin(115200); // Initialize serial port to send and receive at 9600 baud
   
-  pinMode(3, OUTPUT); 
+  pinMode(AC_LIGHT, OUTPUT); 
+  //attachInterrupt(digitalPinToInterrupt(pin), zero_crosss, RISING);
+
     
   dht.begin();
   Motor.setSpeed(5);
   
-  cli();
   
-  // reset timer 1
+  cli();
+
+  // Timer 1
   TCCR1A = 0; // set TCCRXA register to 0
   TCCR1B = 0; // set TCCRXB register to 0
   TCNT1  = 0; // reset counter value
@@ -29,6 +39,21 @@ void setup() {
   OCR1A = 0xB71A; //Every 3 seconds interrupt => ((16MHz * 3s)/1024)-1
 
   TCCR1B |= (1 << CS12) | (1 << CS10);    // Prescaler 1024
+  
+/*
+  // Timer 2
+  TCCR1A = 0; // set TCCRXA register to 0
+  TCCR1B = 0; // set TCCRXB register to 0
+  TCNT1  = 0; // reset counter value
+
+  TCCR2A |= (1 << WGM21); // enable timer2 CTC mode
+  TIMSK2 |= (1 << OCIE2A); // enable timer2 compare interrupt
+
+  OCR2A = 20;
+  
+  TCCR2B |= (1 << CS22) | (1 << CS20);   
+
+  */
   sei();
 
   
@@ -55,6 +80,7 @@ boolean shutterIsClosed = false; //Software sensor
 boolean shutterIsOpened = true;
 
 int steps = 0;
+int dimming = 0;
 
 
 void loop() {
@@ -155,15 +181,19 @@ void parseData() {
 
 void processData() {
     switch(device){
+
+      // Dim Light
       case 1:
         if(value==0){
-          digitalWrite(3, LOW);
+          digitalWrite(AC_LIGHT, LOW);
         }else if(value==255){
-          digitalWrite(3, HIGH);
+          digitalWrite(AC_LIGHT, HIGH);
         }else{
-          analogWrite(3,value);
+          int dimtime = value;
         }
         break;
+
+      // Shutters
       case 2:
         if(value==0){
           shuttersUp = true;
@@ -175,6 +205,29 @@ void processData() {
           //Motor.step(-2048);
         }
         break;
+
+      // Tilt Window
+      case 3:
+        if(value==0){
+          servo_tiltWindow.attach(10);
+          servo_tiltWindow.write(750);
+          delay(300);
+          servo_tiltWindow.detach();
+        }else if(value==1){
+          servo_tiltWindow.attach(10);
+          servo_tiltWindow.write(2250);
+          delay(300);
+          servo_tiltWindow.detach();
+        }
         
     }
+}
+
+void zero_crosss()  // function to be fired at the zero crossing to dim the light
+{
+  int dimtime = (39*dimming+1);    // For 60Hz =>65   
+  delayMicroseconds(dimtime);    // Off cycle
+  digitalWrite(AC_LIGHT, HIGH);   // triac firing
+  delayMicroseconds(10);         // triac On propagation delay (for 60Hz use 8.33)
+  digitalWrite(AC_LIGHT, LOW);    // triac Off
 }

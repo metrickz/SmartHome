@@ -59,7 +59,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1143, 412);
+        MainWindow->resize(611, 412);
         MainWindow->setStyleSheet(QStringLiteral(""));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
@@ -126,7 +126,7 @@ public:
         label_11->setFont(font);
         connectionState = new QLabel(centralwidget);
         connectionState->setObjectName(QStringLiteral("connectionState"));
-        connectionState->setGeometry(QRect(310, 370, 231, 21));
+        connectionState->setGeometry(QRect(480, 370, 231, 21));
         QFont font1;
         font1.setPointSize(8);
         connectionState->setFont(font1);
@@ -142,6 +142,7 @@ public:
         display_brightness->setObjectName(QStringLiteral("display_brightness"));
         display_brightness->setGeometry(QRect(460, 280, 111, 31));
         display_brightness->setFont(font);
+        display_brightness->setStyleSheet(QStringLiteral(""));
         display_airpressure = new QLabel(centralwidget);
         display_airpressure->setObjectName(QStringLiteral("display_airpressure"));
         display_airpressure->setGeometry(QRect(460, 320, 111, 21));
@@ -149,11 +150,14 @@ public:
         btn_lightOff = new QPushButton(centralwidget);
         btn_lightOff->setObjectName(QStringLiteral("btn_lightOff"));
         btn_lightOff->setGeometry(QRect(50, 40, 51, 31));
+        btn_lightOff->setStyleSheet(QStringLiteral(""));
         shutterProgress = new QProgressBar(centralwidget);
         shutterProgress->setObjectName(QStringLiteral("shutterProgress"));
         shutterProgress->setGeometry(QRect(150, 140, 91, 101));
+        shutterProgress->setStyleSheet(QLatin1String("QProgressBar::chunk {background-color: rgb(98, 98, 98);}\n"
+""));
         shutterProgress->setMaximum(2048);
-        shutterProgress->setValue(24);
+        shutterProgress->setValue(0);
         shutterProgress->setOrientation(Qt::Vertical);
         shutterProgress->setInvertedAppearance(true);
         shutterProgress->setTextDirection(QProgressBar::TopToBottom);

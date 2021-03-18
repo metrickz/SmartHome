@@ -93,6 +93,28 @@ void MainWindow::server_New_Connect()
     qDebug() << "A Client connect!";
     ui->connectionState->setText("Phone connected");
     ui->connectionState->setStyleSheet("QLabel { color : green; }");
+
+    // Send current state to mobile application
+    socket->write(makeSendable(1,ui->slider_light->value()));
+    socket->write(makeSendable(9,ui->shutterProgress->value()));
+
+    if(ui->btn_shuttersDown->isEnabled() == false){
+        socket->write(makeSendable(2,1));
+        socket->flush();
+    }else if(ui->btn_shuttersUp->isEnabled() == false){
+        socket->write(makeSendable(2,0));
+        socket->flush();
+    }
+
+    if(ui->btn_tilt->text() == "Tilt"){
+        socket->write(makeSendable(3,0));
+        socket->flush();
+    }else{
+        socket->write(makeSendable(3,1));
+        socket->flush();
+    }
+
+
     //socket->write("CONNECTED TO SMART HOME SYSTEM");
     //socket->flush();
 }
@@ -363,7 +385,6 @@ void MainWindow::on_btn_lightOff_clicked()
         serial->write(message);
     }
 
-
     ui->btn_lightOff->setEnabled(false);
     ui->btn_lightOn->setEnabled(true);
     ui->slider_light->setValue(0);
@@ -439,22 +460,33 @@ void MainWindow::on_btn_shuttersDown_clicked()
 
 void MainWindow::on_btn_tilt_clicked()
 {
-    if(socket->state() == QAbstractSocket::ConnectedState)
-    {
-        if(ui->btn_tilt->text() == "Tilt"){
-            QByteArray message = makeSendable(3,1);
+
+
+    if(ui->btn_tilt->text() == "Tilt"){
+        QByteArray message = makeSendable(3,1);
+
+        if(socket->state() == QAbstractSocket::ConnectedState)
+        {
             socket->write(message);
             socket->flush();
-            serial->write(message);
-            ui->btn_tilt->setText("Close");
-        }else{
-            QByteArray message = makeSendable(3,0);
-            socket->write(message);
-            socket->flush();
-            serial->write(message);
-            ui->btn_tilt->setText("Tilt");
         }
 
+        qDebug() << "Opening: " << message;
+        serial->write(message);
+        ui->btn_tilt->setText("Close");
+    }else{
+
+
+        QByteArray message = makeSendable(3,0);
+
+        if(socket->state() == QAbstractSocket::ConnectedState)
+        {
+            socket->write(message);
+            socket->flush();
+        }
+        qDebug() << "Closing: " << message;
+        serial->write(message);
+        ui->btn_tilt->setText("Tilt");
     }
 
 }
