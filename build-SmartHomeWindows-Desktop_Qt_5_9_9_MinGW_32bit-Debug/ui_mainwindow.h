@@ -175,10 +175,10 @@ public:
         label_10->setText(QApplication::translate("MainWindow", "Temperature", Q_NULLPTR));
         label_11->setText(QApplication::translate("MainWindow", "Brightness", Q_NULLPTR));
         connectionState->setText(QApplication::translate("MainWindow", "No phone connected", Q_NULLPTR));
-        display_temp->setText(QApplication::translate("MainWindow", "Temperature", Q_NULLPTR));
-        display_humidity->setText(QApplication::translate("MainWindow", "humidity", Q_NULLPTR));
-        display_brightness->setText(QApplication::translate("MainWindow", "Brightness", Q_NULLPTR));
-        display_airpressure->setText(QApplication::translate("MainWindow", "Air pressure", Q_NULLPTR));
+        display_temp->setText(QString());
+        display_humidity->setText(QString());
+        display_brightness->setText(QString());
+        display_airpressure->setText(QString());
         btn_lightOff->setText(QApplication::translate("MainWindow", "OFF", Q_NULLPTR));
     } // retranslateUi
 

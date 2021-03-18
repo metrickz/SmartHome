@@ -43,5 +43,7 @@ private:
     QSerialPort *serial;
     QByteArray makeSendable(int device, int value);
 
+    int devices[];
+
 };
 #endif // MAINWINDOW_H

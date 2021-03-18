@@ -294,7 +294,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Temperature</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="display_humidity">
@@ -312,7 +312,7 @@
      </font>
     </property>
     <property name="text">
-     <string>humidity</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="display_brightness">
@@ -330,7 +330,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Brightness</string>
+     <string/>
     </property>
    </widget>
    <widget class="QLabel" name="display_airpressure">
@@ -348,7 +348,7 @@
      </font>
     </property>
     <property name="text">
-     <string>Air pressure</string>
+     <string/>
     </property>
    </widget>
    <widget class="QPushButton" name="btn_lightOff">

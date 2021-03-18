@@ -34,21 +34,40 @@ MainWindow::MainWindow(QWidget *parent)
     /* ------------------------------------------------------------------------------*/
     //      SETUP Serial Connection
     /* ------------------------------------------------------------------------------*/
-    serial = new QSerialPort();
-    serial->setPortName("COM3");
-    serial->setBaudRate(QSerialPort::Baud115200);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
-    connect(serial,SIGNAL(readyRead()),this, SLOT(serialReceived()));
 
-    if(!serial->open(QIODevice::ReadWrite)){
-        qDebug() << serial->error();
-        return;
-    }else{
-        serial->write("<0:0>"); // Initialize
+    bool arduino_available = false;
+    QString portName;
+
+    // Look for connected devices
+    for(const QSerialPortInfo &serialPortInfo : QSerialPortInfo::availablePorts()){
+        if(serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()){
+            if(serialPortInfo.vendorIdentifier() == 9025 && serialPortInfo.productIdentifier() == 67){
+                portName = serialPortInfo.portName();
+                arduino_available = true;
+            }
+        }
     }
+
+    if(arduino_available){
+        serial = new QSerialPort();
+        serial->setPortName(portName);
+        serial->setBaudRate(QSerialPort::Baud115200);
+        serial->setDataBits(QSerialPort::Data8);
+        serial->setParity(QSerialPort::NoParity);
+        serial->setStopBits(QSerialPort::OneStop);
+        serial->setFlowControl(QSerialPort::NoFlowControl);
+        connect(serial,SIGNAL(readyRead()),this, SLOT(serialReceived()));
+        if(!serial->open(QIODevice::ReadWrite)){
+            qDebug() << serial->error();
+            return;
+        }else{
+            serial->write("<0:0>"); // Initialize
+        }
+    }else{
+        qDebug() << "Arduino not found";
+    }
+
+
 }
 
 MainWindow::~MainWindow()
@@ -91,16 +110,106 @@ void MainWindow::socket_Read_Data()
     {
         QString str = buffer;
 
+        QString msg;
+
+        bool startMessage = false;
+
+        for(int i=0;i<str.length();i++){
+            if(str.at(i) == '<'){
+                startMessage = true;
+            }
+            if(!(str.at(i) == '>') && str.at(i) != '<' && startMessage==true){
+                msg.append(str.at(i));
+            }else if(str.at(i) == '>')
+            {
+                if(!msg.isEmpty() && msg.contains(':'))
+                {
+                    QStringList keypair = msg.split(":");
+
+                    bool *errorPointer = nullptr;
+                    int device = keypair.at(0).toInt(errorPointer,2);
+                    int value = keypair.at(1).toInt(errorPointer,2);
+
+                    qDebug() << "TCP in: Device "+ QString::number(device) + " Value: "+ QString::number(value);
+
+                    switch(device){
+                        case 1:
+                            if(value==0){
+                                QByteArray message = makeSendable(1,0);
+                                serial->write(message);
+
+                                ui->btn_lightOff->setDisabled(true);
+                                ui->btn_lightOn->setDisabled(false);
+                            }else if(value==255){
+                                QByteArray message = makeSendable(1,255);
+                                serial->write(message);
+
+                                ui->btn_lightOff->setDisabled(false);
+                                ui->btn_lightOn->setDisabled(true);
+                            }else
+                            {
+                                ui->btn_lightOff->setDisabled(false);
+                                ui->btn_lightOn->setDisabled(false);
+                            }
+                            ui->slider_light->setValue(value);
+                            break;
+
+                        case 2:
+                            if(value==0){
+                                QByteArray message = makeSendable(2,0);
+                                serial->write(message);
+
+                                ui->btn_shuttersUp->setDisabled(true);
+                                ui->btn_shuttersDown->setDisabled(false);
+                            }else if(value==1){
+                                QByteArray message = makeSendable(2,1);
+                                serial->write(message);
+
+                                ui->btn_shuttersUp->setDisabled(false);
+                                ui->btn_shuttersDown->setDisabled(true);
+                            }
+                            break;
+
+                        case 3:
+                            if(value==0){
+                                QByteArray message = makeSendable(3,1);
+                                serial->write(message);
+
+                                ui->btn_tilt->setText("Tilt");
+                            }else if(value==1){
+                                QByteArray message = makeSendable(3,0);
+                                serial->write(message);
+
+                                ui->btn_tilt->setText("Close");
+                            }
+                            break;
+                        case 4:
+                            QByteArray message = makeSendable(4,value);
+                            serial->write(message);
+                            ui->slider_temp->setValue(value);
+                        break;
+                    }
+                }
+                msg.clear();
+                startMessage = false;
+            }
+        }
+
+        /*
         // Check if Signal has the right format
         if(str.startsWith('<') && str.endsWith('>') && str.contains(':'))
         {
+            str = str.remove('<');
+            str = str.remove('>');
             QStringList receivedMessage = str.split(':');
             QString str_device = receivedMessage.at(0);
             QString str_value = receivedMessage.at(1);
+            qDebug() << "Str Device: "+str_device + " Str Value: "+str_value;
 
             bool *errorPointer = nullptr;
             int device = str_device.toInt(errorPointer,2);
             int value = str_value.toInt(errorPointer,2);
+            qDebug() << "Device: "+QString::number(device)+ " Value: "+QString::number(value);
 
             switch(device){
                 case 1:
@@ -151,12 +260,12 @@ void MainWindow::socket_Read_Data()
                     serial->write(message);
                 break;
             }
-
             qDebug() << "Device: "+QString::number(device)+ " Value: "+QString::number(value);
-        }else{
-            qDebug() << "Wrong format received, returning...";
-            return;
-        }
+            }else{
+                qDebug() << "Wrong format received, returning... Message:" << str;
+                return;
+            }
+        */
     }
 }
 
@@ -211,6 +320,14 @@ void MainWindow::serialReceived()
                     ui->display_airpressure->setText(value);
                     break;
                 }
+
+
+                if(socket->state() == QAbstractSocket::ConnectedState)
+                {
+                    QByteArray message = makeSendable(device,keypair.at(1).toFloat());
+                    socket->write(message);
+                    socket->flush();
+                }
             }
             msg.clear();
             startMessage = false;
@@ -233,7 +350,10 @@ void MainWindow::on_btn_lightOff_clicked()
         socket->write(message);
         socket->flush();
     }
-    serial->write(message);
+    if(serial->isOpen()){
+        serial->write(message);
+    }
+
 
     ui->btn_lightOff->setEnabled(false);
     ui->btn_lightOn->setEnabled(true);
@@ -280,12 +400,14 @@ void MainWindow::on_slider_light_valueChanged(int i)
 
 void MainWindow::on_btn_shuttersUp_clicked()
 {
+    QByteArray message = makeSendable(2,0);
+
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
-        socket->write("2:0");
+        socket->write(message);
         socket->flush();
     }
-    serial->write("<2:0>");
+    serial->write(message);
 
     ui->btn_shuttersUp->setEnabled(false);
     ui->btn_shuttersDown->setEnabled(true);
@@ -293,12 +415,14 @@ void MainWindow::on_btn_shuttersUp_clicked()
 
 void MainWindow::on_btn_shuttersDown_clicked()
 {
+    QByteArray message = makeSendable(2,1);
+
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
-        socket->write("2:1");
+        socket->write(message);
         socket->flush();
     }
-    serial->write("<2:1>");
+    serial->write(message);
 
     ui->btn_shuttersUp->setEnabled(true);
     ui->btn_shuttersDown->setEnabled(false);
@@ -309,14 +433,16 @@ void MainWindow::on_btn_tilt_clicked()
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
         if(ui->btn_tilt->text() == "Tilt"){
-            socket->write("3:1");
+            QByteArray message = makeSendable(3,1);
+            socket->write(message);
             socket->flush();
-            serial->write("3:1");
+            serial->write(message);
             ui->btn_tilt->setText("Close");
         }else{
-            socket->write("3:0");
+            QByteArray message = makeSendable(3,0);
+            socket->write(message);
             socket->flush();
-            serial->write("3:0");
+            serial->write(message);
             ui->btn_tilt->setText("Tilt");
         }
 
@@ -328,18 +454,13 @@ void MainWindow::on_btn_tilt_clicked()
 
 void MainWindow::on_slider_temp_valueChanged(int i)
 {
-    int temp = i;
-    QByteArray message;
-    QString device = "4";
-    QString value = QString::number(temp);
-    QString message_str =device+":"+value;
-    message = message_str.toUtf8();
+    QByteArray message = makeSendable(4,i);
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
         socket->write(message);
         socket->flush();
     }
-    serial->write("<"+message+">");
+    serial->write(message);
 
 }
 
