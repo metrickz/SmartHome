@@ -56,7 +56,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QString::fromUtf8("MainWindow"));
-        MainWindow->resize(984, 412);
+        MainWindow->resize(1143, 412);
         MainWindow->setStyleSheet(QString::fromUtf8(""));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QString::fromUtf8("centralwidget"));
@@ -124,19 +124,19 @@ public:
         label_11->setFont(font);
         lineEdit_Port = new QLineEdit(centralwidget);
         lineEdit_Port->setObjectName(QString::fromUtf8("lineEdit_Port"));
-        lineEdit_Port->setGeometry(QRect(690, 30, 113, 21));
+        lineEdit_Port->setGeometry(QRect(690, 30, 131, 21));
         pushButton_Listen = new QPushButton(centralwidget);
         pushButton_Listen->setObjectName(QString::fromUtf8("pushButton_Listen"));
-        pushButton_Listen->setGeometry(QRect(830, 30, 80, 21));
+        pushButton_Listen->setGeometry(QRect(830, 30, 101, 21));
         pushButton_Send = new QPushButton(centralwidget);
         pushButton_Send->setObjectName(QString::fromUtf8("pushButton_Send"));
-        pushButton_Send->setGeometry(QRect(820, 140, 80, 21));
+        pushButton_Send->setGeometry(QRect(850, 140, 101, 21));
         textEdit_Recv = new QTextEdit(centralwidget);
         textEdit_Recv->setObjectName(QString::fromUtf8("textEdit_Recv"));
-        textEdit_Recv->setGeometry(QRect(690, 60, 104, 70));
+        textEdit_Recv->setGeometry(QRect(690, 60, 141, 70));
         textEdit_Send = new QTextEdit(centralwidget);
         textEdit_Send->setObjectName(QString::fromUtf8("textEdit_Send"));
-        textEdit_Send->setGeometry(QRect(690, 140, 121, 21));
+        textEdit_Send->setGeometry(QRect(690, 140, 141, 21));
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QString::fromUtf8("statusbar"));
