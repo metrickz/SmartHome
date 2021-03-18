@@ -113,10 +113,6 @@ void MainWindow::server_New_Connect()
         socket->write(makeSendable(3,1));
         socket->flush();
     }
-
-
-    //socket->write("CONNECTED TO SMART HOME SYSTEM");
-    //socket->flush();
 }
 
 
@@ -216,78 +212,6 @@ void MainWindow::socket_Read_Data()
                 startMessage = false;
             }
         }
-
-        /*
-        // Check if Signal has the right format
-        if(str.startsWith('<') && str.endsWith('>') && str.contains(':'))
-        {
-            str = str.remove('<');
-            str = str.remove('>');
-            QStringList receivedMessage = str.split(':');
-            QString str_device = receivedMessage.at(0);
-            QString str_value = receivedMessage.at(1);
-            qDebug() << "Str Device: "+str_device + " Str Value: "+str_value;
-
-            bool *errorPointer = nullptr;
-            int device = str_device.toInt(errorPointer,2);
-            int value = str_value.toInt(errorPointer,2);
-            qDebug() << "Device: "+QString::number(device)+ " Value: "+QString::number(value);
-
-            switch(device){
-                case 1:
-                    if(value==0){
-                        ui->btn_lightOff->setDisabled(true);
-                        ui->btn_lightOn->setDisabled(false);
-                        serial->write("<1:0>");
-                    }else if(value==255){
-                        ui->btn_lightOff->setDisabled(false);
-                        ui->btn_lightOn->setDisabled(true);
-                        serial->write("<1:255>");
-                    }else
-                    {
-                        ui->btn_lightOff->setDisabled(false);
-                        ui->btn_lightOn->setDisabled(false);
-                    }
-                    ui->slider_light->setValue(value);
-                    break;
-
-                case 2:
-                    if(value==0){
-                        ui->btn_shuttersUp->setDisabled(true);
-                        ui->btn_shuttersDown->setDisabled(false);
-                        serial->write("<2:0>");
-                    }else if(value==1){
-                        ui->btn_shuttersUp->setDisabled(false);
-                        ui->btn_shuttersDown->setDisabled(true);
-                        serial->write("<2:1>");
-                    }
-                    break;
-
-                case 3:
-                    if(value==0){
-                        ui->btn_tilt->setText("Tilt");
-                        serial->write("<3:1>");
-                    }else if(value==1){
-                        ui->btn_tilt->setText("Close");
-                        serial->write("<3:0>");
-                    }
-                    break;
-                case 4:
-                    ui->slider_temp->setValue(value);
-                    QByteArray message;
-                    QString device = "4";
-                    QString value = str_value;
-                    QString message_str =device+":"+str_value;
-                    message = message_str.toUtf8();
-                    serial->write(message);
-                break;
-            }
-            qDebug() << "Device: "+QString::number(device)+ " Value: "+QString::number(value);
-            }else{
-                qDebug() << "Wrong format received, returning... Message:" << str;
-                return;
-            }
-        */
     }
 }
 
