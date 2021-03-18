@@ -17,6 +17,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QProgressBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QSlider>
 #include <QtWidgets/QStatusBar>
@@ -51,6 +52,7 @@ public:
     QLabel *display_brightness;
     QLabel *display_airpressure;
     QPushButton *btn_lightOff;
+    QProgressBar *shutterProgress;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -147,6 +149,14 @@ public:
         btn_lightOff = new QPushButton(centralwidget);
         btn_lightOff->setObjectName(QStringLiteral("btn_lightOff"));
         btn_lightOff->setGeometry(QRect(50, 40, 51, 31));
+        shutterProgress = new QProgressBar(centralwidget);
+        shutterProgress->setObjectName(QStringLiteral("shutterProgress"));
+        shutterProgress->setGeometry(QRect(150, 140, 91, 101));
+        shutterProgress->setMaximum(2048);
+        shutterProgress->setValue(24);
+        shutterProgress->setOrientation(Qt::Vertical);
+        shutterProgress->setInvertedAppearance(true);
+        shutterProgress->setTextDirection(QProgressBar::TopToBottom);
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -180,6 +190,7 @@ public:
         display_brightness->setText(QString());
         display_airpressure->setText(QString());
         btn_lightOff->setText(QApplication::translate("MainWindow", "OFF", Q_NULLPTR));
+        shutterProgress->setFormat(QString());
     } // retranslateUi
 
 };

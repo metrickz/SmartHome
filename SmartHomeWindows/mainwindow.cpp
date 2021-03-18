@@ -319,6 +319,15 @@ void MainWindow::serialReceived()
                 case 8:
                     ui->display_airpressure->setText(value);
                     break;
+                case 9:
+                    if(value == 0){
+                        ui->btn_shuttersUp->setEnabled(false);
+                        ui->btn_shuttersDown->setEnabled(true);
+                    }else if(value == 2048){
+                        ui->btn_shuttersUp->setEnabled(true);
+                        ui->btn_shuttersDown->setEnabled(false);
+                    }
+                    ui->shutterProgress->setValue(value.toInt());
                 }
 
 
