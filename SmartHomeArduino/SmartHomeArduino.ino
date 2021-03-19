@@ -5,88 +5,68 @@
 #include <Stepper.h>
 #include "DHT.h"
 
+
 // SETUP PINS
-#define AC_LIGHT 9
+
+#define SERVO_SHUTTERS  8   //Output
+#define MOTOR_PIN_1     22  // Output
+#define MOTOR_PIN_2     23  // Output
+#define MOTOR_PIN_3     24  // Output
+#define MOTOR_PIN_4     25  // Output
+#define DHT11_IN        26  // Input
+#define AC_LIGHT        27  // Output
+#define BRIGHTNESS_IN   A0  // Input
+#define ZERO_CROSS      2   // Input 
 
 
-DHT dht(2, DHT11);
-Stepper Motor(2048, 4,6,5,7);
+
+DHT dht(DHT11_IN, DHT11);
+Stepper Motor(2048, MOTOR_PIN_1,MOTOR_PIN_3,MOTOR_PIN_2,MOTOR_PIN_4);
 ServoTimer2 servo_tiltWindow;
 
-
-void setup() {
-  
-  Serial.begin(115200); // Initialize serial port to send and receive at 9600 baud
-  
-  pinMode(AC_LIGHT, OUTPUT); 
-  //attachInterrupt(digitalPinToInterrupt(pin), zero_crosss, RISING);
-
-    
-  dht.begin();
-  Motor.setSpeed(5);
-  
-  
-  cli();
-
-  // Timer 1
-  TCCR1A = 0; // set TCCRXA register to 0
-  TCCR1B = 0; // set TCCRXB register to 0
-  TCNT1  = 0; // reset counter value
-
-  TCCR1B |= (1 << WGM12); // enable timer1 CTC mode
-  TIMSK1 |= (1 << OCIE1A); // enable timer1 compare interrupt
-
-  OCR1A = 0xB71A; //Every 3 seconds interrupt => ((16MHz * 3s)/1024)-1
-
-  TCCR1B |= (1 << CS12) | (1 << CS10);    // Prescaler 1024
-  
-/*
-  // Timer 2
-  TCCR1A = 0; // set TCCRXA register to 0
-  TCCR1B = 0; // set TCCRXB register to 0
-  TCNT1  = 0; // reset counter value
-
-  TCCR2A |= (1 << WGM21); // enable timer2 CTC mode
-  TIMSK2 |= (1 << OCIE2A); // enable timer2 compare interrupt
-
-  OCR2A = 20;
-  
-  TCCR2B |= (1 << CS22) | (1 << CS20);   
-
-  */
-  sei();
-
-  
-}
-
-
-
 int device, value;
-
 int brightness;
 float temperature;
 float humidty;
 float airpressure;
-
-
 const byte numChars = 32;
 char receivedChars[numChars];      
 boolean newData = false;
-
 boolean shuttersDown = false;
 boolean shuttersUp = false;
-
 boolean shutterIsClosed = false; //Software sensor
 boolean shutterIsOpened = true;
-
 int steps = 0;
 int dimming = 0;
+
+
+void setup() {
+  Serial.begin(115200); // Initialize serial port to send and receive at 9600 baud
+  
+  pinMode(AC_LIGHT, OUTPUT); 
+  attachInterrupt(digitalPinToInterrupt(ZERO_CROSS), zero_crosss, RISING);
+    
+  dht.begin();
+  Motor.setSpeed(5);
+  
+
+  // Timer 3 (16Bit)
+  cli();
+  TCCR3A = 0; // set TCCRXA register to 0
+  TCCR3B = 0; // set TCCRXB register to 0
+  TCNT3  = 0; // reset counter value
+  OCR3A = 0xB71A; //Every 3 seconds interrupt => ((16MHz * 3s)/1024)-1
+  TCCR3B |= (1 << WGM32); // enable timer1 CTC mode
+  TIMSK3 |= (1 << OCIE3A); // enable timer1 compare interrupt
+  TCCR3B |= (1 << CS12) | (1 << CS10);    // Prescaler 1024
+  sei();
+}
 
 
 void loop() {
   
   // Read  sensor data
-  brightness = analogRead(A0);
+  brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
 
@@ -102,7 +82,6 @@ void loop() {
 
 
   // Control Shutters
-  
   if(shuttersDown == true && shutterIsClosed == false){
     Motor.step(1);
     steps++;
@@ -115,6 +94,7 @@ void loop() {
     Serial.print("<9:"+String(steps)+">");     // Shutters
   }
 
+  // Software Limit Switch for Shutters
   if(steps < 2048){
     shutterIsClosed = false;
   }else if(steps == 2048){
@@ -125,12 +105,9 @@ void loop() {
   }else if(steps == 0){
     shutterIsOpened = true;
   }
-  
-  
-  
 }
 
-ISR(TIMER1_COMPA_vect){    
+ISR(TIMER3_COMPA_vect){    
   // Send sensor data to Host
   Serial.print("<5:"+String(temperature)+">");
   Serial.print("<6:"+String(humidty)+">");
@@ -209,12 +186,12 @@ void processData() {
       // Tilt Window
       case 3:
         if(value==0){
-          servo_tiltWindow.attach(10);
+          servo_tiltWindow.attach(SERVO_SHUTTERS);
           servo_tiltWindow.write(750);
           delay(300);
           servo_tiltWindow.detach();
         }else if(value==1){
-          servo_tiltWindow.attach(10);
+          servo_tiltWindow.attach(SERVO_SHUTTERS);
           servo_tiltWindow.write(2250);
           delay(300);
           servo_tiltWindow.detach();
@@ -225,9 +202,9 @@ void processData() {
 
 void zero_crosss()  // function to be fired at the zero crossing to dim the light
 {
-  int dimtime = (39*dimming+1);    // For 60Hz =>65   
+  int dimtime = (39*dimming+1);    // 39 => 10.000 Microseconds / 255 
   delayMicroseconds(dimtime);    // Off cycle
   digitalWrite(AC_LIGHT, HIGH);   // triac firing
-  delayMicroseconds(10);         // triac On propagation delay (for 60Hz use 8.33)
-  digitalWrite(AC_LIGHT, LOW);    // triac Off
+  delayMicroseconds(10);   
+  digitalWrite(AC_LIGHT, LOW);
 }

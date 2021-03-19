@@ -173,7 +173,7 @@ public:
 
     void retranslateUi(QMainWindow *MainWindow)
     {
-        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Obis Smart Home Control System", Q_NULLPTR));
+        MainWindow->setWindowTitle(QApplication::translate("MainWindow", "Smart Home Control System", Q_NULLPTR));
         btn_lightOn->setText(QApplication::translate("MainWindow", "ON", Q_NULLPTR));
         label_2->setText(QApplication::translate("MainWindow", "Light", Q_NULLPTR));
         label_3->setText(QApplication::translate("MainWindow", "Shutters", Q_NULLPTR));

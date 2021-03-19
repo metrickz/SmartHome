@@ -41,7 +41,8 @@ MainWindow::MainWindow(QWidget *parent)
     // Look for connected devices
     for(const QSerialPortInfo &serialPortInfo : QSerialPortInfo::availablePorts()){
         if(serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()){
-            if(serialPortInfo.vendorIdentifier() == 9025 && serialPortInfo.productIdentifier() == 67){
+            qDebug() << "Vendor ID: " << serialPortInfo.vendorIdentifier() << " Product ID: " << serialPortInfo.productIdentifier();
+            if(serialPortInfo.vendorIdentifier() == 9025 && serialPortInfo.productIdentifier() == 66){
                 portName = serialPortInfo.portName();
                 arduino_available = true;
             }
