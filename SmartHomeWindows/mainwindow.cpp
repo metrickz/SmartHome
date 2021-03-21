@@ -154,13 +154,13 @@ void MainWindow::socket_Read_Data()
                     switch(device){
                         case 1:
                             if(value==0){
-                                QByteArray message = makeSendable(1,0);
+                                QByteArray message = makeSendable(1,1);
                                 serial->write(message);
 
                                 ui->btn_lightOff->setDisabled(true);
                                 ui->btn_lightOn->setDisabled(false);
                             }else if(value==255){
-                                QByteArray message = makeSendable(1,255);
+                                QByteArray message = makeSendable(1,256);
                                 serial->write(message);
 
                                 ui->btn_lightOff->setDisabled(false);
@@ -170,7 +170,7 @@ void MainWindow::socket_Read_Data()
                                 ui->btn_lightOff->setDisabled(false);
                                 ui->btn_lightOn->setDisabled(false);
                             }
-                            ui->slider_light->setValue(value);
+                            ui->slider_light->setValue(value+1);
                             break;
 
                         case 2:
@@ -275,6 +275,7 @@ void MainWindow::serialReceived()
                         ui->btn_shuttersDown->setEnabled(false);
                     }
                     ui->shutterProgress->setValue(value.toInt());
+                    break;
                 }
 
 
@@ -299,7 +300,7 @@ void MainWindow::serialReceived()
 
 void MainWindow::on_btn_lightOff_clicked()
 {
-    QByteArray message = makeSendable(1,0);
+    QByteArray message = makeSendable(1,1);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
@@ -317,7 +318,7 @@ void MainWindow::on_btn_lightOff_clicked()
 
 void MainWindow::on_btn_lightOn_clicked()
 {
-    QByteArray message = makeSendable(1,255);
+    QByteArray message = makeSendable(1,256);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
@@ -334,7 +335,7 @@ void MainWindow::on_btn_lightOn_clicked()
 
 void MainWindow::on_slider_light_valueChanged(int i)
 {
-    QByteArray message = makeSendable(1,i);
+    QByteArray message = makeSendable(1,i+1);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     { 

@@ -2,8 +2,9 @@
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
 #include <DHT_U.h>
-#include <Stepper.h>
 #include "DHT.h"
+#include <Stepper.h>
+
 
 
 // SETUP PINS
@@ -14,9 +15,8 @@
 #define MOTOR_PIN_3     24  // Output
 #define MOTOR_PIN_4     25  // Output
 #define DHT11_IN        26  // Input
-#define AC_LIGHT        27  // Output
 #define BRIGHTNESS_IN   A0  // Input
-#define ZERO_CROSS      2   // Input 
+
 
 
 
@@ -38,16 +38,21 @@ boolean shutterIsClosed = false; //Software sensor
 boolean shutterIsOpened = true;
 int steps = 0;
 int dimming = 0;
+int lastValidDimvalue = 0;
 
 
 void setup() {
-  Serial.begin(115200); // Initialize serial port to send and receive at 9600 baud
+  Serial.begin(115200);   // Initialize serial port for communication with host pc
+  Serial1.begin(115200);  // Initialize serial port for communication with dimmer arduino
   
-  pinMode(AC_LIGHT, OUTPUT); 
-  attachInterrupt(digitalPinToInterrupt(ZERO_CROSS), zero_crosss, RISING);
-    
+  //pinMode(AC_LIGHT, OUTPUT); 
+  //pinMode(ZERO_CROSS,INPUT);
+  //attachInterrupt(digitalPinToInterrupt(ZERO_CROSS), zero_cross, RISING);
+
+   
   dht.begin();
   Motor.setSpeed(5);
+
   
 
   // Timer 3 (16Bit)
@@ -64,11 +69,17 @@ void setup() {
 
 
 void loop() {
-  
+  /*
   // Read  sensor data
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
+*/
+
+  Serial1.write(100);
+
+
+
 
   // Receive serial data
   if (Serial.available() > 0) {
@@ -161,13 +172,8 @@ void processData() {
 
       // Dim Light
       case 1:
-        if(value==0){
-          digitalWrite(AC_LIGHT, LOW);
-        }else if(value==255){
-          digitalWrite(AC_LIGHT, HIGH);
-        }else{
-          int dimtime = value;
-        }
+          dimming = 255-value;
+          Serial1.print(dimming);
         break;
 
       // Shutters
@@ -198,13 +204,4 @@ void processData() {
         }
         
     }
-}
-
-void zero_crosss()  // function to be fired at the zero crossing to dim the light
-{
-  int dimtime = (39*dimming+1);    // 39 => 10.000 Microseconds / 255 
-  delayMicroseconds(dimtime);    // Off cycle
-  digitalWrite(AC_LIGHT, HIGH);   // triac firing
-  delayMicroseconds(10);   
-  digitalWrite(AC_LIGHT, LOW);
 }
