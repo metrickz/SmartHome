@@ -1,6 +1,6 @@
 QT       += core gui
 QT       += network
-
+QT       += serialport
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -11,14 +11,10 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    server.cpp \
-    thread.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    server.h \
-    thread.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
@@ -30,5 +26,3 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-RESOURCES += \
-    Resources.qrc
