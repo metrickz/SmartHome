@@ -70,6 +70,7 @@ void setup() {
 void loop() {
   
   // Read  sensor data
+  
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();

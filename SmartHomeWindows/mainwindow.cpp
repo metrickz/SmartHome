@@ -15,6 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
     /* ------------------------------------------------------------------------------*/
     ui->setupUi(this);
 
+
     /* ------------------------------------------------------------------------------*/
     //      SETUP TCP Connection
     /* ------------------------------------------------------------------------------*/
@@ -442,5 +443,4 @@ QByteArray MainWindow::makeSendable(int device, int value){
 
     return startChar.toUtf8()+str_device.toUtf8()+seperator.toUtf8()+str_value.toUtf8()+endChar.toUtf8();
 }
-
 

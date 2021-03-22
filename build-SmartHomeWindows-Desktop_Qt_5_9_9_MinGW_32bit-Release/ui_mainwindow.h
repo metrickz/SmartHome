@@ -53,6 +53,7 @@ public:
     QLabel *display_airpressure;
     QPushButton *btn_lightOff;
     QProgressBar *shutterProgress;
+    QPushButton *btn_getrequest;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -161,6 +162,9 @@ public:
         shutterProgress->setOrientation(Qt::Vertical);
         shutterProgress->setInvertedAppearance(true);
         shutterProgress->setTextDirection(QProgressBar::TopToBottom);
+        btn_getrequest = new QPushButton(centralwidget);
+        btn_getrequest->setObjectName(QStringLiteral("btn_getrequest"));
+        btn_getrequest->setGeometry(QRect(300, 370, 80, 21));
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -195,6 +199,7 @@ public:
         display_airpressure->setText(QString());
         btn_lightOff->setText(QApplication::translate("MainWindow", "OFF", Q_NULLPTR));
         shutterProgress->setFormat(QString());
+        btn_getrequest->setText(QApplication::translate("MainWindow", "GET request", Q_NULLPTR));
     } // retranslateUi
 
 };

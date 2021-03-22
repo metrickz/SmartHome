@@ -6,6 +6,7 @@
 #include <QTcpSocket>
 #include <QSerialPort>
 
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -43,7 +44,8 @@ private:
     QSerialPort *serial;
     QByteArray makeSendable(int device, int value);
 
-    int devices[];
+
+
 
 };
 #endif // MAINWINDOW_H
