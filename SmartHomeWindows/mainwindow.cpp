@@ -154,13 +154,13 @@ void MainWindow::socket_Read_Data()
                     switch(device){
                         case 1:
                             if(value==0){
-                                QByteArray message = makeSendable(1,1);
+                                QByteArray message = makeSendable(1,0);
                                 serial->write(message);
 
                                 ui->btn_lightOff->setDisabled(true);
                                 ui->btn_lightOn->setDisabled(false);
                             }else if(value==255){
-                                QByteArray message = makeSendable(1,256);
+                                QByteArray message = makeSendable(1,255);
                                 serial->write(message);
 
                                 ui->btn_lightOff->setDisabled(false);
@@ -170,7 +170,7 @@ void MainWindow::socket_Read_Data()
                                 ui->btn_lightOff->setDisabled(false);
                                 ui->btn_lightOn->setDisabled(false);
                             }
-                            ui->slider_light->setValue(value+1);
+                            ui->slider_light->setValue(value);
                             break;
 
                         case 2:
@@ -255,16 +255,16 @@ void MainWindow::serialReceived()
 
                 switch(device){
                 case 5:
-                    ui->display_temp->setText(value+"°C");
+                    ui->display_temp->setText(value+" °C");
                     break;
                 case 6:
-                    ui->display_humidity->setText(value+"%");
+                    ui->display_humidity->setText(value+" %");
                     break;
                 case 7:
                     ui->display_brightness->setText(value);
                     break;
                 case 8:
-                    ui->display_airpressure->setText(value);
+                    ui->display_airpressure->setText(value+" hPa");
                     break;
                 case 9:
                     if(value == 0){
@@ -300,7 +300,7 @@ void MainWindow::serialReceived()
 
 void MainWindow::on_btn_lightOff_clicked()
 {
-    QByteArray message = makeSendable(1,1);
+    QByteArray message = makeSendable(1,0);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
@@ -318,7 +318,7 @@ void MainWindow::on_btn_lightOff_clicked()
 
 void MainWindow::on_btn_lightOn_clicked()
 {
-    QByteArray message = makeSendable(1,256);
+    QByteArray message = makeSendable(1,255);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
@@ -335,7 +335,7 @@ void MainWindow::on_btn_lightOn_clicked()
 
 void MainWindow::on_slider_light_valueChanged(int i)
 {
-    QByteArray message = makeSendable(1,i+1);
+    QByteArray message = makeSendable(1,i);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     { 
