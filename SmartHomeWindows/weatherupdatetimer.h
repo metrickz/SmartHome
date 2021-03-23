@@ -19,6 +19,10 @@ public:
 public slots:
     void TimerSlot();
 
+
+signals:
+    void updateWeatherImage(int weatherCode, QString desc);
+
 private:
     QNetworkAccessManager *manager;
     QNetworkRequest request;

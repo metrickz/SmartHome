@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>611</width>
+    <width>861</width>
     <height>412</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
    <string>Smart Home Control System</string>
   </property>
   <property name="styleSheet">
-   <string notr="true"/>
+   <string notr="true">background-color: rgb(66, 197, 197);</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QPushButton" name="btn_lightOn">
@@ -51,9 +51,14 @@
      <rect>
       <x>30</x>
       <y>10</y>
-      <width>31</width>
+      <width>51</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Light</string>
@@ -64,9 +69,14 @@
      <rect>
       <x>30</x>
       <y>120</y>
-      <width>51</width>
+      <width>101</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Shutters</string>
@@ -103,9 +113,14 @@
      <rect>
       <x>20</x>
       <y>240</y>
-      <width>71</width>
+      <width>141</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Tilt Window</string>
@@ -129,9 +144,14 @@
      <rect>
       <x>30</x>
       <y>330</y>
-      <width>71</width>
+      <width>121</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Temperature</string>
@@ -162,6 +182,9 @@
       <height>21</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
+    </property>
     <property name="text">
      <string>20°</string>
     </property>
@@ -174,6 +197,9 @@
       <width>21</width>
       <height>21</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>28°</string>
@@ -188,6 +214,9 @@
       <height>181</height>
      </rect>
     </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
+    </property>
    </widget>
    <widget class="QLabel" name="label_8">
     <property name="geometry">
@@ -200,8 +229,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Humidity</string>
@@ -218,8 +256,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Air pressure</string>
@@ -236,8 +283,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Temperature</string>
@@ -254,8 +310,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string>Brightness</string>
@@ -264,7 +329,7 @@
    <widget class="QLabel" name="connectionState">
     <property name="geometry">
      <rect>
-      <x>480</x>
+      <x>730</x>
       <y>370</y>
       <width>231</width>
       <height>21</height>
@@ -290,8 +355,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string/>
@@ -308,8 +382,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string/>
@@ -326,11 +409,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string/>
@@ -347,8 +436,17 @@
     </property>
     <property name="font">
      <font>
-      <pointsize>14</pointsize>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
      </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
     </property>
     <property name="text">
      <string/>
@@ -402,17 +500,47 @@
      <string/>
     </property>
    </widget>
-   <widget class="QPushButton" name="btn_getrequest">
+   <widget class="QLabel" name="weatherImage">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>370</y>
-      <width>80</width>
-      <height>21</height>
+      <x>660</x>
+      <y>40</y>
+      <width>101</width>
+      <height>71</height>
      </rect>
     </property>
     <property name="text">
-     <string>GET request</string>
+     <string>weatherImage</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="weatherDesc">
+    <property name="geometry">
+     <rect>
+      <x>620</x>
+      <y>110</y>
+      <width>201</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(255, 255, 255);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string>No data available</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>

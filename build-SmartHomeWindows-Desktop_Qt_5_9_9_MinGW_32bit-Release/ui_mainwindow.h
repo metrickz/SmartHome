@@ -53,15 +53,16 @@ public:
     QLabel *display_airpressure;
     QPushButton *btn_lightOff;
     QProgressBar *shutterProgress;
-    QPushButton *btn_getrequest;
+    QLabel *weatherImage;
+    QLabel *weatherDesc;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(611, 412);
-        MainWindow->setStyleSheet(QStringLiteral(""));
+        MainWindow->resize(861, 412);
+        MainWindow->setStyleSheet(QStringLiteral("background-color: rgb(66, 197, 197);"));
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName(QStringLiteral("centralwidget"));
         btn_lightOn = new QPushButton(centralwidget);
@@ -74,10 +75,16 @@ public:
         slider_light->setOrientation(Qt::Horizontal);
         label_2 = new QLabel(centralwidget);
         label_2->setObjectName(QStringLiteral("label_2"));
-        label_2->setGeometry(QRect(30, 10, 31, 21));
+        label_2->setGeometry(QRect(30, 10, 51, 21));
+        label_2->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         label_3 = new QLabel(centralwidget);
         label_3->setObjectName(QStringLiteral("label_3"));
-        label_3->setGeometry(QRect(30, 120, 51, 21));
+        label_3->setGeometry(QRect(30, 120, 101, 21));
+        label_3->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         btn_shuttersUp = new QPushButton(centralwidget);
         btn_shuttersUp->setObjectName(QStringLiteral("btn_shuttersUp"));
         btn_shuttersUp->setGeometry(QRect(60, 140, 71, 51));
@@ -86,13 +93,19 @@ public:
         btn_shuttersDown->setGeometry(QRect(60, 190, 71, 51));
         label_4 = new QLabel(centralwidget);
         label_4->setObjectName(QStringLiteral("label_4"));
-        label_4->setGeometry(QRect(20, 240, 71, 21));
+        label_4->setGeometry(QRect(20, 240, 141, 21));
+        label_4->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         btn_tilt = new QPushButton(centralwidget);
         btn_tilt->setObjectName(QStringLiteral("btn_tilt"));
         btn_tilt->setGeometry(QRect(60, 270, 71, 51));
         label_5 = new QLabel(centralwidget);
         label_5->setObjectName(QStringLiteral("label_5"));
-        label_5->setGeometry(QRect(30, 330, 71, 21));
+        label_5->setGeometry(QRect(30, 330, 121, 21));
+        label_5->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         slider_temp = new QSlider(centralwidget);
         slider_temp->setObjectName(QStringLiteral("slider_temp"));
         slider_temp->setGeometry(QRect(40, 360, 160, 16));
@@ -101,33 +114,52 @@ public:
         label_6 = new QLabel(centralwidget);
         label_6->setObjectName(QStringLiteral("label_6"));
         label_6->setGeometry(QRect(30, 370, 21, 21));
+        label_6->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
         label_7 = new QLabel(centralwidget);
         label_7->setObjectName(QStringLiteral("label_7"));
         label_7->setGeometry(QRect(190, 370, 21, 21));
+        label_7->setStyleSheet(QStringLiteral("color: rgb(255, 255, 255);"));
         calendarWidget = new QCalendarWidget(centralwidget);
         calendarWidget->setObjectName(QStringLiteral("calendarWidget"));
         calendarWidget->setGeometry(QRect(310, 10, 281, 181));
+        calendarWidget->setStyleSheet(QStringLiteral("background-color: rgb(255, 255, 255);"));
         label_8 = new QLabel(centralwidget);
         label_8->setObjectName(QStringLiteral("label_8"));
         label_8->setGeometry(QRect(310, 250, 111, 21));
         QFont font;
-        font.setPointSize(14);
+        font.setFamily(QStringLiteral("MS Shell Dlg 2"));
+        font.setPointSize(12);
+        font.setBold(false);
+        font.setItalic(false);
+        font.setWeight(9);
         label_8->setFont(font);
+        label_8->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         label_9 = new QLabel(centralwidget);
         label_9->setObjectName(QStringLiteral("label_9"));
         label_9->setGeometry(QRect(310, 320, 111, 21));
         label_9->setFont(font);
+        label_9->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         label_10 = new QLabel(centralwidget);
         label_10->setObjectName(QStringLiteral("label_10"));
         label_10->setGeometry(QRect(310, 220, 111, 21));
         label_10->setFont(font);
+        label_10->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         label_11 = new QLabel(centralwidget);
         label_11->setObjectName(QStringLiteral("label_11"));
         label_11->setGeometry(QRect(310, 280, 111, 31));
         label_11->setFont(font);
+        label_11->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         connectionState = new QLabel(centralwidget);
         connectionState->setObjectName(QStringLiteral("connectionState"));
-        connectionState->setGeometry(QRect(480, 370, 231, 21));
+        connectionState->setGeometry(QRect(730, 370, 231, 21));
         QFont font1;
         font1.setPointSize(8);
         connectionState->setFont(font1);
@@ -135,19 +167,30 @@ public:
         display_temp->setObjectName(QStringLiteral("display_temp"));
         display_temp->setGeometry(QRect(460, 220, 111, 21));
         display_temp->setFont(font);
+        display_temp->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         display_humidity = new QLabel(centralwidget);
         display_humidity->setObjectName(QStringLiteral("display_humidity"));
         display_humidity->setGeometry(QRect(460, 250, 111, 21));
         display_humidity->setFont(font);
+        display_humidity->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         display_brightness = new QLabel(centralwidget);
         display_brightness->setObjectName(QStringLiteral("display_brightness"));
         display_brightness->setGeometry(QRect(460, 280, 111, 31));
         display_brightness->setFont(font);
-        display_brightness->setStyleSheet(QStringLiteral(""));
+        display_brightness->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         display_airpressure = new QLabel(centralwidget);
         display_airpressure->setObjectName(QStringLiteral("display_airpressure"));
         display_airpressure->setGeometry(QRect(460, 320, 111, 21));
         display_airpressure->setFont(font);
+        display_airpressure->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         btn_lightOff = new QPushButton(centralwidget);
         btn_lightOff->setObjectName(QStringLiteral("btn_lightOff"));
         btn_lightOff->setGeometry(QRect(50, 40, 51, 31));
@@ -162,9 +205,17 @@ public:
         shutterProgress->setOrientation(Qt::Vertical);
         shutterProgress->setInvertedAppearance(true);
         shutterProgress->setTextDirection(QProgressBar::TopToBottom);
-        btn_getrequest = new QPushButton(centralwidget);
-        btn_getrequest->setObjectName(QStringLiteral("btn_getrequest"));
-        btn_getrequest->setGeometry(QRect(300, 370, 80, 21));
+        weatherImage = new QLabel(centralwidget);
+        weatherImage->setObjectName(QStringLiteral("weatherImage"));
+        weatherImage->setGeometry(QRect(660, 40, 101, 71));
+        weatherDesc = new QLabel(centralwidget);
+        weatherDesc->setObjectName(QStringLiteral("weatherDesc"));
+        weatherDesc->setGeometry(QRect(620, 110, 201, 21));
+        weatherDesc->setFont(font);
+        weatherDesc->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        weatherDesc->setAlignment(Qt::AlignCenter);
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -199,7 +250,8 @@ public:
         display_airpressure->setText(QString());
         btn_lightOff->setText(QApplication::translate("MainWindow", "OFF", Q_NULLPTR));
         shutterProgress->setFormat(QString());
-        btn_getrequest->setText(QApplication::translate("MainWindow", "GET request", Q_NULLPTR));
+        weatherImage->setText(QApplication::translate("MainWindow", "weatherImage", Q_NULLPTR));
+        weatherDesc->setText(QApplication::translate("MainWindow", "No data available", Q_NULLPTR));
     } // retranslateUi
 
 };

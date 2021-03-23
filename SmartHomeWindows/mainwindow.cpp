@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QSerialPortInfo>
+#include <QPixmap>
 #include <QDebug>
 
 
@@ -14,6 +15,15 @@ MainWindow::MainWindow(QWidget *parent)
     //      SETUP User Interface
     /* ------------------------------------------------------------------------------*/
     ui->setupUi(this);
+
+
+    /* ------------------------------------------------------------------------------*/
+    //      Start Timer for weather data update
+    /* ------------------------------------------------------------------------------*/
+
+    //timer = new WeatherUpdateTimer();
+    //QObject::connect(timer, SIGNAL(updateWeatherImage(int, QString)),this, SLOT(updateWeather(int, QString)));
+
 
 
     /* ------------------------------------------------------------------------------*/
@@ -444,3 +454,44 @@ QByteArray MainWindow::makeSendable(int device, int value){
     return startChar.toUtf8()+str_device.toUtf8()+seperator.toUtf8()+str_value.toUtf8()+endChar.toUtf8();
 }
 
+
+
+void MainWindow::updateWeather(int weatherCode, QString desc)
+{
+    qDebug() << "received weatherCode: " << weatherCode;
+
+    QString fileExtension = "200.png";
+
+    if(weatherCode >= 200 &&  weatherCode < 300){
+        fileExtension = "200.png";
+    }else if(weatherCode >= 300 && weatherCode < 400){
+        fileExtension = "300.png";
+    }else if(weatherCode >= 500 && weatherCode <= 504){
+        fileExtension = "500-504.png";
+    }else if(weatherCode == 511){
+        fileExtension = "511.png";
+    }else if(weatherCode >= 520 && weatherCode <= 531){
+        fileExtension = "520-531.png";
+    }else if(weatherCode == 600){
+        fileExtension = "600.png";
+    }else if(weatherCode == 700){
+        fileExtension = "700.png";
+    }else if(weatherCode == 800){
+        fileExtension = "800day.png";
+    }else if(weatherCode == 801){
+        fileExtension = "801day.png";
+    }else if(weatherCode == 802){
+        fileExtension = "802.png";
+    }else if(weatherCode == 803){
+        fileExtension = "803.png";
+    }else if(weatherCode == 804){
+        fileExtension = "804.png";
+    }
+
+
+
+    QPixmap pm(":/img/res/img/"+fileExtension);
+    ui->weatherImage->setPixmap(pm);
+    ui->weatherDesc->setText(desc);
+
+}

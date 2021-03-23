@@ -47,12 +47,16 @@ int pressure = 0;
 void setup() {
   Serial.begin(115200);   // Initialize serial port for communication with host pc
   Serial1.begin(115200);  // Initialize serial port for communication with dimmer arduino
-  
-  dht.begin();
-  Motor.setSpeed(5);
-  BMP.init(BMP180_STANDARD);
 
+  Serial.println("SETUP");
   
+  Motor.setSpeed(5);
+  dht.begin();
+  Serial.println("DHT Sensor started");
+  BMP.init(BMP180_STANDARD);
+  Serial.println("BMP Sensor started");
+  Serial.println("---- Sensors initialized");
+
 
   // Timer 3 (16Bit)
   cli();
@@ -64,18 +68,17 @@ void setup() {
   TIMSK3 |= (1 << OCIE3A); // enable timer1 compare interrupt
   TCCR3B |= (1 << CS12) | (1 << CS10);    // Prescaler 1024
   sei();
+  Serial.print("Timer interrupt set...");
 }
 
 
 void loop() {
-  
+
   // Read  sensor data
-  
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
   pressure = BMP.readReducedPress(665); 
-
 
   
 
