@@ -6,6 +6,9 @@
 #include <QTcpSocket>
 #include <QSerialPort>
 
+#include "weatherupdatetimer.h"
+
+
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -33,6 +36,8 @@ private slots:
     void on_slider_light_valueChanged(int value);
     void on_slider_temp_valueChanged(int value);
 
+    void updateWeather(int weatherCode, QString desc);
+
 
 
 private:
@@ -43,7 +48,10 @@ private:
     QSerialPort *serial;
     QByteArray makeSendable(int device, int value);
 
-    int devices[];
+    //WeatherUpdateTimer *timer;
+
+
+
 
 };
 #endif // MAINWINDOW_H

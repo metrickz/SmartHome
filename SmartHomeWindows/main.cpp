@@ -1,4 +1,3 @@
-#include "tcpsocket.h"
 #include "mainwindow.h"
 
 

@@ -1,3 +1,4 @@
+#include <MyBMP180.h>
 #include <ServoTimer2.h>
 #include <Adafruit_Sensor.h>
 #include <DHT.h>
@@ -16,13 +17,15 @@
 #define MOTOR_PIN_4     25  // Output
 #define DHT11_IN        26  // Input
 #define BRIGHTNESS_IN   A0  // Input
+#define ALTITUDE        700
 
 
 
 
-DHT dht(DHT11_IN, DHT11);
-Stepper Motor(2048, MOTOR_PIN_1,MOTOR_PIN_3,MOTOR_PIN_2,MOTOR_PIN_4);
+DHT         dht(DHT11_IN, DHT11);
+Stepper     Motor(2048, MOTOR_PIN_1,MOTOR_PIN_3,MOTOR_PIN_2,MOTOR_PIN_4);
 ServoTimer2 servo_tiltWindow;
+MyBMP180    BMP(0x77);
 
 int device, value;
 int brightness;
@@ -38,22 +41,22 @@ boolean shutterIsClosed = false; //Software sensor
 boolean shutterIsOpened = true;
 int steps = 0;
 int dimming = 0;
-int lastValidDimvalue = 0;
+int pressure = 0;
 
 
 void setup() {
   Serial.begin(115200);   // Initialize serial port for communication with host pc
   Serial1.begin(115200);  // Initialize serial port for communication with dimmer arduino
-  
-  //pinMode(AC_LIGHT, OUTPUT); 
-  //pinMode(ZERO_CROSS,INPUT);
-  //attachInterrupt(digitalPinToInterrupt(ZERO_CROSS), zero_cross, RISING);
 
-   
-  dht.begin();
+  Serial.println("SETUP");
+  
   Motor.setSpeed(5);
+  dht.begin();
+  Serial.println("DHT Sensor started");
+  BMP.init(BMP180_STANDARD);
+  Serial.println("BMP Sensor started");
+  Serial.println("---- Sensors initialized");
 
-  
 
   // Timer 3 (16Bit)
   cli();
@@ -65,21 +68,19 @@ void setup() {
   TIMSK3 |= (1 << OCIE3A); // enable timer1 compare interrupt
   TCCR3B |= (1 << CS12) | (1 << CS10);    // Prescaler 1024
   sei();
+  Serial.print("Timer interrupt set...");
 }
 
 
 void loop() {
-  /*
+
   // Read  sensor data
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
-*/
+  pressure = BMP.readReducedPress(665); 
 
-  Serial1.write(100);
-
-
-
+  
 
   // Receive serial data
   if (Serial.available() > 0) {
@@ -123,7 +124,7 @@ ISR(TIMER3_COMPA_vect){
   Serial.print("<5:"+String(temperature)+">");
   Serial.print("<6:"+String(humidty)+">");
   Serial.print("<7:"+String(brightness)+">");
-  Serial.print("<8:481>"); 
+  Serial.print("<8:"+String(pressure)+">");
 }
 
 void recv_serial() {
@@ -172,8 +173,7 @@ void processData() {
 
       // Dim Light
       case 1:
-          dimming = 255-value;
-          Serial1.print(dimming);
+          Serial1.write(value);
         break;
 
       // Shutters

@@ -11,10 +11,12 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    weatherupdatetimer.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    weatherupdatetimer.h
 
 FORMS += \
     mainwindow.ui
@@ -25,4 +27,7 @@ TARGET = QTcpSocket
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+RESOURCES += \
+    Resources.qrc
 

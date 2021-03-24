@@ -1,3 +1,19 @@
 <RCC>
-    <qresource prefix="/imgs"/>
+    <qresource prefix="/img">
+        <file>res/img/200.png</file>
+        <file>res/img/300.png</file>
+        <file>res/img/500-504.png</file>
+        <file>res/img/511.png</file>
+        <file>res/img/520-531.png</file>
+        <file>res/img/600.png</file>
+        <file>res/img/700.png</file>
+        <file>res/img/800day.png</file>
+        <file>res/img/800night.png</file>
+        <file>res/img/801day.png</file>
+        <file>res/img/801night.png</file>
+        <file>res/img/802.png</file>
+        <file>res/img/803.png</file>
+        <file>res/img/804.png</file>
+        <file>res/img/bg.png</file>
+    </qresource>
 </RCC>

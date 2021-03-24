@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 
 #include <QSerialPortInfo>
+#include <QPixmap>
 #include <QDebug>
 
 
@@ -14,6 +15,16 @@ MainWindow::MainWindow(QWidget *parent)
     //      SETUP User Interface
     /* ------------------------------------------------------------------------------*/
     ui->setupUi(this);
+
+
+    /* ------------------------------------------------------------------------------*/
+    //      Start Timer for weather data update
+    /* ------------------------------------------------------------------------------*/
+
+    //timer = new WeatherUpdateTimer();
+    //QObject::connect(timer, SIGNAL(updateWeatherImage(int, QString)),this, SLOT(updateWeather(int, QString)));
+
+
 
     /* ------------------------------------------------------------------------------*/
     //      SETUP TCP Connection
@@ -154,13 +165,13 @@ void MainWindow::socket_Read_Data()
                     switch(device){
                         case 1:
                             if(value==0){
-                                QByteArray message = makeSendable(1,1);
+                                QByteArray message = makeSendable(1,0);
                                 serial->write(message);
 
                                 ui->btn_lightOff->setDisabled(true);
                                 ui->btn_lightOn->setDisabled(false);
                             }else if(value==255){
-                                QByteArray message = makeSendable(1,256);
+                                QByteArray message = makeSendable(1,255);
                                 serial->write(message);
 
                                 ui->btn_lightOff->setDisabled(false);
@@ -170,7 +181,7 @@ void MainWindow::socket_Read_Data()
                                 ui->btn_lightOff->setDisabled(false);
                                 ui->btn_lightOn->setDisabled(false);
                             }
-                            ui->slider_light->setValue(value+1);
+                            ui->slider_light->setValue(value);
                             break;
 
                         case 2:
@@ -255,16 +266,16 @@ void MainWindow::serialReceived()
 
                 switch(device){
                 case 5:
-                    ui->display_temp->setText(value+"°C");
+                    ui->display_temp->setText(value+" °C");
                     break;
                 case 6:
-                    ui->display_humidity->setText(value+"%");
+                    ui->display_humidity->setText(value+" %");
                     break;
                 case 7:
                     ui->display_brightness->setText(value);
                     break;
                 case 8:
-                    ui->display_airpressure->setText(value);
+                    ui->display_airpressure->setText(value+" hPa");
                     break;
                 case 9:
                     if(value == 0){
@@ -300,7 +311,7 @@ void MainWindow::serialReceived()
 
 void MainWindow::on_btn_lightOff_clicked()
 {
-    QByteArray message = makeSendable(1,1);
+    QByteArray message = makeSendable(1,0);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
@@ -318,7 +329,7 @@ void MainWindow::on_btn_lightOff_clicked()
 
 void MainWindow::on_btn_lightOn_clicked()
 {
-    QByteArray message = makeSendable(1,256);
+    QByteArray message = makeSendable(1,255);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     {
@@ -335,7 +346,7 @@ void MainWindow::on_btn_lightOn_clicked()
 
 void MainWindow::on_slider_light_valueChanged(int i)
 {
-    QByteArray message = makeSendable(1,i+1);
+    QByteArray message = makeSendable(1,i);
 
     if(socket->state() == QAbstractSocket::ConnectedState)
     { 
@@ -444,3 +455,43 @@ QByteArray MainWindow::makeSendable(int device, int value){
 }
 
 
+
+void MainWindow::updateWeather(int weatherCode, QString desc)
+{
+    qDebug() << "received weatherCode: " << weatherCode;
+
+    QString fileExtension = "200.png";
+
+    if(weatherCode >= 200 &&  weatherCode < 300){
+        fileExtension = "200.png";
+    }else if(weatherCode >= 300 && weatherCode < 400){
+        fileExtension = "300.png";
+    }else if(weatherCode >= 500 && weatherCode <= 504){
+        fileExtension = "500-504.png";
+    }else if(weatherCode == 511){
+        fileExtension = "511.png";
+    }else if(weatherCode >= 520 && weatherCode <= 531){
+        fileExtension = "520-531.png";
+    }else if(weatherCode == 600){
+        fileExtension = "600.png";
+    }else if(weatherCode == 700){
+        fileExtension = "700.png";
+    }else if(weatherCode == 800){
+        fileExtension = "800day.png";
+    }else if(weatherCode == 801){
+        fileExtension = "801day.png";
+    }else if(weatherCode == 802){
+        fileExtension = "802.png";
+    }else if(weatherCode == 803){
+        fileExtension = "803.png";
+    }else if(weatherCode == 804){
+        fileExtension = "804.png";
+    }
+
+
+
+    QPixmap pm(":/img/res/img/"+fileExtension);
+    ui->weatherImage->setPixmap(pm);
+    ui->weatherDesc->setText(desc);
+
+}
