@@ -1,0 +1,40 @@
+#######################################
+# Syntax Coloring Map For MyBMP180
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+
+MyBMP180	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+
+isReady	KEYWORD2
+init	KEYWORD2
+readTemp	KEYWORD2
+readPress	KEYWORD2
+readReducedPress	KEYWORD2
+
+#######################################
+# Instances (KEYWORD2)
+#######################################
+
+
+#######################################
+# Constants (LITERAL1)
+
+BMP180_I2CADD_FIX	LITERAL1
+BMP180_CTRL_MEAS_REG	LITERAL1
+BMP180_START_TEMP_MEAS	LITERAL1
+BMP180_OUT_MSB_REG	LITERAL1
+BMP180_START_PRES_MEAS	LITERAL1
+BMP180_ULTRA_LOW_POWER	LITERAL1
+BMP180_STANDARD	LITERAL1
+BMP180_HIGH_RESOLUTION	LITERAL1
+BMP180_ULTRA_HIGH_RESOLUTION	LITERAL1
+
+#######################################
+
