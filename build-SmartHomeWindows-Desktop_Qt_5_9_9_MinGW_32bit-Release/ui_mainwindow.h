@@ -228,7 +228,7 @@ public:
 ""));
         display_PIDvalue = new QLabel(centralwidget);
         display_PIDvalue->setObjectName(QStringLiteral("display_PIDvalue"));
-        display_PIDvalue->setGeometry(QRect(450, 350, 111, 21));
+        display_PIDvalue->setGeometry(QRect(460, 350, 111, 21));
         display_PIDvalue->setFont(font);
         display_PIDvalue->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
 "font: 75 12pt \"MS Shell Dlg 2\";\n"

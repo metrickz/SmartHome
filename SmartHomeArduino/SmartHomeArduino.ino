@@ -49,7 +49,7 @@ float setpoint = 0;
 float PID_error = 0;
 float previous_error = 0;
 float elapsedTime, Time, timePrev;
-int PID_value = 0;
+float PID_value = 0;
 
 
 //PID factors
@@ -69,7 +69,7 @@ void setup() {
   Motor.setSpeed(5);
   dht.begin();
   Serial.println("DHT Sensor started");
-  //BMP.init(BMP180_STANDARD);
+  BMP.init(BMP180_STANDARD);
   Serial.println("BMP Sensor started");
   Serial.println("---- Sensors initialized");
 
@@ -98,7 +98,8 @@ void loop() {
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
-  //pressure = BMP.readReducedPress(665);
+  pressure = BMP.readReducedPress(665);
+
 
   /*---------------------------------------------------------------*/
   // PID controller
@@ -132,7 +133,7 @@ void loop() {
   if(PID_value > 255)  
       PID_value = 255;  
 
-  Serial2.write(PID_value);
+  Serial2.write((int)PID_value);
   previous_error = PID_error; 
   
   

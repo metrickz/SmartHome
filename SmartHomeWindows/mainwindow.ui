@@ -573,7 +573,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
    <widget class="QLabel" name="display_PIDvalue">
     <property name="geometry">
      <rect>
-      <x>450</x>
+      <x>460</x>
       <y>350</y>
       <width>111</width>
       <height>21</height>
