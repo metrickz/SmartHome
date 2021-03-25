@@ -179,7 +179,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        android:text="20°"
+        android:text="22°"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/seekBar_setTemp"
         app:layout_constraintTop_toBottomOf="@+id/seekBar_setTemp" />
