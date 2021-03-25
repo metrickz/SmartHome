@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
@@ -25,30 +26,29 @@ public class Settings extends AppCompatActivity {
         ipAddr = findViewById(R.id.et_ipAddr);
 
 
-        SharedPreferences sharedpreferences = getSharedPreferences("Settings", Context.MODE_PRIVATE);
 
-        ipAddr.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+        SharedPreferences settings = getSharedPreferences("UserInfo", 0);
+        ipAddr.setText(settings.getString("IP", "").toString());
 
-            }
 
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                sharedpreferences.edit().putString("IPADDR",ipAddr.getText().toString()).apply();
-            }
-        });
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Settings.this, MainActivity.class);
-                startActivity(intent);
+                String enteredIP = ipAddr.getText().toString().trim();
+                if(TextUtils.isEmpty(enteredIP)){
+                    ipAddr.setError("Please enter a valid IP");
+                }else{
+                    SharedPreferences.Editor editor = settings.edit();
+                    editor.putString("IP",ipAddr.getText().toString());
+                    editor.apply();
+                    finish();
+                    Intent intent = new Intent(Settings.this, MainActivity.class);
+                    startActivity(intent);
+                }
+
+
             }
         });
 
