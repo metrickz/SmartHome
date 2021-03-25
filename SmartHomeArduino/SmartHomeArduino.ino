@@ -16,6 +16,7 @@
 #define MOTOR_PIN_3     24  // Output
 #define MOTOR_PIN_4     25  // Output
 #define DHT11_IN        26  // Input
+#define FIRE_HEATING    27  // Input
 #define BRIGHTNESS_IN   A0  // Input
 #define ALTITUDE        700
 
@@ -49,13 +50,17 @@ void setup() {
   Serial1.begin(115200);  // Initialize serial port for communication with dimmer arduino
 
   Serial.println("SETUP");
+
+  pinMode(FIRE_HEATING,OUTPUT);
   
   Motor.setSpeed(5);
   dht.begin();
   Serial.println("DHT Sensor started");
-  BMP.init(BMP180_STANDARD);
+  //BMP.init(BMP180_STANDARD);
   Serial.println("BMP Sensor started");
   Serial.println("---- Sensors initialized");
+
+  
 
 
   // Timer 3 (16Bit)
@@ -78,7 +83,13 @@ void loop() {
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
-  pressure = BMP.readReducedPress(665); 
+  //pressure = BMP.readReducedPress(665);
+
+   if(temperature > 5 && temperature < 50){
+    digitalWrite(FIRE_HEATING,HIGH);
+   }else{
+    digitalWrite(FIRE_HEATING,LOW);
+   }
 
   
 

@@ -5,6 +5,11 @@
 #include <QPixmap>
 #include <QDebug>
 
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -21,8 +26,52 @@ MainWindow::MainWindow(QWidget *parent)
     //      Start Timer for weather data update
     /* ------------------------------------------------------------------------------*/
 
-    //timer = new WeatherUpdateTimer();
-    //QObject::connect(timer, SIGNAL(updateWeatherImage(int, QString)),this, SLOT(updateWeather(int, QString)));
+
+    // Whenever an API call was made, send the weather info to updateWeatherUISlot, this updates the images
+    QObject::connect(this, SIGNAL(updateWeatherUI(int, QString)),this, SLOT(updateWeatherUISlot(int, QString)));
+
+    // This makes an API call
+    manager = new QNetworkAccessManager();
+
+    QObject::connect(manager, &QNetworkAccessManager::finished,
+        this, [=](QNetworkReply *reply) {
+            if (reply->error()) {
+                qDebug() << reply->errorString();
+                return;
+            }
+
+            // Read API response
+            QByteArray val = reply->readAll();
+
+            // Make Json Document to Object
+            QJsonDocument JsonDoc = QJsonDocument::fromJson(val);
+            QJsonObject JsonObj = JsonDoc.object();
+
+            // Get the "weather" branch out of the root json tree
+            QJsonValue agentsArrayValue = JsonObj.value("weather");
+            QJsonArray agentsArray = agentsArrayValue.toArray();
+
+            // Return the current weather
+            qDebug() << agentsArray[0].toObject().value("id").toInt();
+            qDebug() << agentsArray[0].toObject().value("main").toString();
+            qDebug() << agentsArray[0].toObject().value("description").toString();
+
+            int weatherCode = agentsArray[0].toObject().value("id").toDouble();
+            QString desc = agentsArray[0].toObject().value("description").toString();
+
+            emit updateWeatherUI(weatherCode, desc);
+
+        }
+    );
+
+    // Get weather directly after program start
+    request.setUrl(QUrl("http://api.openweathermap.org/data/2.5/weather?q=Apfeltrach&appid=d384c6a1b72e0adf71db8f11cf52f0db"));
+    manager->get(request);
+
+    // Get wather every x milliseconds
+    QTimer *timer = new QTimer(this);
+    connect(timer, SIGNAL(timeout()), this, SLOT(updateWeather()));
+    timer->start(30000);
 
 
 
@@ -353,7 +402,9 @@ void MainWindow::on_slider_light_valueChanged(int i)
         socket->write(message);
         socket->flush();
     }
-    serial->write(message);
+    if(serial->isOpen()){
+        serial->write(message);
+    }
 
     if(i == 255){
         ui->btn_lightOn->setEnabled(false);
@@ -374,7 +425,9 @@ void MainWindow::on_btn_shuttersUp_clicked()
         socket->write(message);
         socket->flush();
     }
-    serial->write(message);
+    if(serial->isOpen()){
+        serial->write(message);
+    }
 
     ui->btn_shuttersUp->setEnabled(false);
     ui->btn_shuttersDown->setEnabled(true);
@@ -389,7 +442,9 @@ void MainWindow::on_btn_shuttersDown_clicked()
         socket->write(message);
         socket->flush();
     }
-    serial->write(message);
+    if(serial->isOpen()){
+        serial->write(message);
+    }
 
     ui->btn_shuttersUp->setEnabled(true);
     ui->btn_shuttersDown->setEnabled(false);
@@ -409,8 +464,11 @@ void MainWindow::on_btn_tilt_clicked()
         }
 
         qDebug() << "Opening: " << message;
-        serial->write(message);
-        ui->btn_tilt->setText("Close");
+        if(serial->isOpen()){
+            serial->write(message);
+            ui->btn_tilt->setText("Close");
+        }
+
     }else{
 
 
@@ -422,8 +480,11 @@ void MainWindow::on_btn_tilt_clicked()
             socket->flush();
         }
         qDebug() << "Closing: " << message;
-        serial->write(message);
-        ui->btn_tilt->setText("Tilt");
+        if(serial->isOpen()){
+            serial->write(message);
+            ui->btn_tilt->setText("Tilt");
+        }
+
     }
 
 }
@@ -438,7 +499,9 @@ void MainWindow::on_slider_temp_valueChanged(int i)
         socket->write(message);
         socket->flush();
     }
-    serial->write(message);
+    if(serial->isOpen()){
+        serial->write(message);
+    }
 
 }
 
@@ -456,8 +519,14 @@ QByteArray MainWindow::makeSendable(int device, int value){
 
 
 
-void MainWindow::updateWeather(int weatherCode, QString desc)
+void MainWindow::updateWeather()
 {
+    qDebug() << "Updating weather data...";
+    request.setUrl(QUrl("http://api.openweathermap.org/data/2.5/weather?q=Apfeltrach&appid=d384c6a1b72e0adf71db8f11cf52f0db"));
+    manager->get(request);
+}
+
+void MainWindow::updateWeatherUISlot(int weatherCode, QString desc){
     qDebug() << "received weatherCode: " << weatherCode;
 
     QString fileExtension = "200.png";
@@ -493,5 +562,4 @@ void MainWindow::updateWeather(int weatherCode, QString desc)
     QPixmap pm(":/img/res/img/"+fileExtension);
     ui->weatherImage->setPixmap(pm);
     ui->weatherDesc->setText(desc);
-
 }
