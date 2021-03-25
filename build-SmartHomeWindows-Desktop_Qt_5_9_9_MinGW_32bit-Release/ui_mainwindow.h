@@ -55,6 +55,9 @@ public:
     QProgressBar *shutterProgress;
     QLabel *weatherImage;
     QLabel *weatherDesc;
+    QLabel *PID_value_text;
+    QLabel *display_PIDvalue;
+    QLabel *label_12;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -210,12 +213,32 @@ public:
         weatherImage->setGeometry(QRect(660, 40, 101, 71));
         weatherDesc = new QLabel(centralwidget);
         weatherDesc->setObjectName(QStringLiteral("weatherDesc"));
-        weatherDesc->setGeometry(QRect(620, 110, 201, 21));
+        weatherDesc->setGeometry(QRect(610, 110, 201, 21));
         weatherDesc->setFont(font);
         weatherDesc->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
 "font: 75 12pt \"MS Shell Dlg 2\";\n"
 ""));
         weatherDesc->setAlignment(Qt::AlignCenter);
+        PID_value_text = new QLabel(centralwidget);
+        PID_value_text->setObjectName(QStringLiteral("PID_value_text"));
+        PID_value_text->setGeometry(QRect(310, 350, 111, 21));
+        PID_value_text->setFont(font);
+        PID_value_text->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        display_PIDvalue = new QLabel(centralwidget);
+        display_PIDvalue->setObjectName(QStringLiteral("display_PIDvalue"));
+        display_PIDvalue->setGeometry(QRect(450, 350, 111, 21));
+        display_PIDvalue->setFont(font);
+        display_PIDvalue->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        label_12 = new QLabel(centralwidget);
+        label_12->setObjectName(QStringLiteral("label_12"));
+        label_12->setGeometry(QRect(610, 10, 151, 21));
+        label_12->setStyleSheet(QLatin1String("color: rgb(255, 255, 255);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
         MainWindow->setCentralWidget(centralwidget);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName(QStringLiteral("statusbar"));
@@ -237,7 +260,7 @@ public:
         label_4->setText(QApplication::translate("MainWindow", "Tilt Window", Q_NULLPTR));
         btn_tilt->setText(QApplication::translate("MainWindow", "Tilt", Q_NULLPTR));
         label_5->setText(QApplication::translate("MainWindow", "Temperature", Q_NULLPTR));
-        label_6->setText(QApplication::translate("MainWindow", "20\302\260", Q_NULLPTR));
+        label_6->setText(QApplication::translate("MainWindow", "22\302\260", Q_NULLPTR));
         label_7->setText(QApplication::translate("MainWindow", "28\302\260", Q_NULLPTR));
         label_8->setText(QApplication::translate("MainWindow", "Humidity", Q_NULLPTR));
         label_9->setText(QApplication::translate("MainWindow", "Air pressure", Q_NULLPTR));
@@ -252,6 +275,9 @@ public:
         shutterProgress->setFormat(QString());
         weatherImage->setText(QApplication::translate("MainWindow", "weatherImage", Q_NULLPTR));
         weatherDesc->setText(QApplication::translate("MainWindow", "No data available", Q_NULLPTR));
+        PID_value_text->setText(QApplication::translate("MainWindow", "PID value", Q_NULLPTR));
+        display_PIDvalue->setText(QString());
+        label_12->setText(QApplication::translate("MainWindow", "Today's weather", Q_NULLPTR));
     } // retranslateUi
 
 };

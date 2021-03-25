@@ -336,6 +336,8 @@ void MainWindow::serialReceived()
                     }
                     ui->shutterProgress->setValue(value.toInt());
                     break;
+                case 10:
+                    ui->display_PIDvalue->setText(value);
                 }
 
 

@@ -16,7 +16,6 @@
 #define MOTOR_PIN_3     24  // Output
 #define MOTOR_PIN_4     25  // Output
 #define DHT11_IN        26  // Input
-#define FIRE_HEATING    27  // Input
 #define BRIGHTNESS_IN   A0  // Input
 #define ALTITUDE        700
 
@@ -45,13 +44,27 @@ int dimming = 0;
 int pressure = 0;
 
 
+// PID variables
+float setpoint = 0;
+float PID_error = 0;
+float previous_error = 0;
+float elapsedTime, Time, timePrev;
+int PID_value = 0;
+
+
+//PID factors
+int kp = 9;   int ki = 0.2;   int kd = 1.7;
+
+// PID final values
+int PID_p = 0;    int PID_i = 0;    int PID_d = 0;
+
+
 void setup() {
   Serial.begin(115200);   // Initialize serial port for communication with host pc
   Serial1.begin(115200);  // Initialize serial port for communication with dimmer arduino
 
   Serial.println("SETUP");
 
-  pinMode(FIRE_HEATING,OUTPUT);
   
   Motor.setSpeed(5);
   dht.begin();
@@ -79,21 +92,54 @@ void setup() {
 
 void loop() {
 
+  /*---------------------------------------------------------------*/
   // Read  sensor data
+  /*---------------------------------------------------------------*/
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
   //pressure = BMP.readReducedPress(665);
 
-   if(temperature > 5 && temperature < 50){
-    digitalWrite(FIRE_HEATING,HIGH);
-   }else{
-    digitalWrite(FIRE_HEATING,LOW);
-   }
+  /*---------------------------------------------------------------*/
+  // PID controller
+  /*---------------------------------------------------------------*/
+  
+  // Calculate error
+  PID_error = setpoint - PID_error;
 
+  // Calculate P value
+  PID_p = kp * PID_error;
+
+  // Calculate I value withing a specific range
+  if(-1 < PID_error < 1)
+  {
+    PID_i = PID_i + (ki * PID_error);
+  }
+
+  // Calculate D value
+  timePrev = Time;                            
+  Time = millis();                            
+  elapsedTime = (Time - timePrev) / 1000; 
+  
+  PID_d = kd*((PID_error - previous_error)/elapsedTime);
+  
+  // Sum of values
+  PID_value = PID_p + PID_i + PID_d;
+
+  // range has to be within 1 byte
+  if(PID_value < 0)
+      PID_value = 0;    
+  if(PID_value > 255)  
+      PID_value = 255;  
+
+  Serial2.write(PID_value);
+  previous_error = PID_error; 
+  
   
 
-  // Receive serial data
+  /*---------------------------------------------------------------*/
+  // Receive serial data from host
+  /*---------------------------------------------------------------*/
   if (Serial.available() > 0) {
     recv_serial();
     if (newData == true) {
@@ -130,14 +176,24 @@ void loop() {
   }
 }
 
+
+  /*---------------------------------------------------------------*/
+  // Send sensor data to host every interrupt
+  /*---------------------------------------------------------------*/
+
 ISR(TIMER3_COMPA_vect){    
   // Send sensor data to Host
   Serial.print("<5:"+String(temperature)+">");
   Serial.print("<6:"+String(humidty)+">");
   Serial.print("<7:"+String(brightness)+">");
   Serial.print("<8:"+String(pressure)+">");
+  Serial.print("<10:"+String(PID_value)+">");
 }
 
+
+  /*---------------------------------------------------------------*/
+  // Receive serial data and listen for valid data
+  /*---------------------------------------------------------------*/
 void recv_serial() {
     static boolean recvInProgress = false;
     static byte index = 0;
@@ -167,7 +223,9 @@ void recv_serial() {
     }
 }
 
-
+  /*---------------------------------------------------------------*/
+  // Parse / Split valid data package
+  /*---------------------------------------------------------------*/
 void parseData() {      
     char * strtokIndx; 
     
@@ -179,6 +237,9 @@ void parseData() {
 }
 
 
+  /*---------------------------------------------------------------*/
+  // Control actuators
+  /*---------------------------------------------------------------*/
 void processData() {
     switch(device){
 
@@ -213,6 +274,10 @@ void processData() {
           delay(300);
           servo_tiltWindow.detach();
         }
+        break;
+      case 4:
+        int mapped_val = map(value, 0, 255, 22, 28);
+        setpoint = mapped_val;
         
     }
 }
