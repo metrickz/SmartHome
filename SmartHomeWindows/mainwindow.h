@@ -8,10 +8,16 @@
 
 #include "weatherupdatetimer.h"
 
+#include <QNetworkReply>
+#include <QNetworkRequest>
+#include <QNetworkAccessManager>
+
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
+
+class QNetworkAccessManager;
 
 class MainWindow : public QMainWindow
 {
@@ -36,7 +42,11 @@ private slots:
     void on_slider_light_valueChanged(int value);
     void on_slider_temp_valueChanged(int value);
 
-    void updateWeather(int weatherCode, QString desc);
+    void updateWeather();
+    void updateWeatherUISlot(int weatherCode, QString desc);
+
+signals:
+    void updateWeatherUI(int weatherCode, QString desc);
 
 
 
@@ -50,7 +60,8 @@ private:
 
     //WeatherUpdateTimer *timer;
 
-
+    QNetworkAccessManager *manager;
+    QNetworkRequest request;
 
 
 };
