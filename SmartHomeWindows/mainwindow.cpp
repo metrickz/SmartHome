@@ -4,6 +4,7 @@
 #include <QSerialPortInfo>
 #include <QPixmap>
 #include <QDebug>
+#include <QTimer>
 
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -28,7 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 
     // Whenever an API call was made, send the weather info to updateWeatherUISlot, this updates the images
-    QObject::connect(this, SIGNAL(updateWeatherUI(int, QString)),this, SLOT(updateWeatherUISlot(int, QString)));
+    QObject::connect(this, SIGNAL(updateWeatherUI(int, QString, int, int)),this, SLOT(updateWeatherUISlot(int, QString, int, int)));
 
     // This makes an API call
     manager = new QNetworkAccessManager();
@@ -48,18 +49,19 @@ MainWindow::MainWindow(QWidget *parent)
             QJsonObject JsonObj = JsonDoc.object();
 
             // Get the "weather" branch out of the root json tree
-            QJsonValue agentsArrayValue = JsonObj.value("weather");
-            QJsonArray agentsArray = agentsArrayValue.toArray();
+            QJsonValue weatherBranch = JsonObj.value("weather");
+            QJsonArray weatcherArray = weatherBranch.toArray();
+
+            QJsonValue sysBranch = JsonObj.value("sys");
 
             // Return the current weather
-            qDebug() << agentsArray[0].toObject().value("id").toInt();
-            qDebug() << agentsArray[0].toObject().value("main").toString();
-            qDebug() << agentsArray[0].toObject().value("description").toString();
+            int weatherCode = weatcherArray[0].toObject().value("id").toInt();
+            QString desc = weatcherArray[0].toObject().value("description").toString();
+            int sunrise = sysBranch.toObject().value("sunrise").toInt();
+            int sunset = sysBranch.toObject().value("sunset").toInt();
 
-            int weatherCode = agentsArray[0].toObject().value("id").toDouble();
-            QString desc = agentsArray[0].toObject().value("description").toString();
 
-            emit updateWeatherUI(weatherCode, desc);
+            emit updateWeatherUI(weatherCode, desc, sunrise, sunset);
 
         }
     );
@@ -71,7 +73,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Get wather every x milliseconds
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateWeather()));
-    timer->start(30000);
+    timer->start(180000);
 
 
 
@@ -101,7 +103,7 @@ MainWindow::MainWindow(QWidget *parent)
     // Look for connected devices
     for(const QSerialPortInfo &serialPortInfo : QSerialPortInfo::availablePorts()){
         if(serialPortInfo.hasVendorIdentifier() && serialPortInfo.hasProductIdentifier()){
-            qDebug() << "Vendor ID: " << serialPortInfo.vendorIdentifier() << " Product ID: " << serialPortInfo.productIdentifier();
+            qDebug() << "Connected to Arduino - Vendor ID: " << serialPortInfo.vendorIdentifier() << " Product ID: " << serialPortInfo.productIdentifier();
             if(serialPortInfo.vendorIdentifier() == 9025 && serialPortInfo.productIdentifier() == 66){
                 portName = serialPortInfo.portName();
                 arduino_available = true;
@@ -528,9 +530,9 @@ void MainWindow::updateWeather()
     manager->get(request);
 }
 
-void MainWindow::updateWeatherUISlot(int weatherCode, QString desc){
-    qDebug() << "received weatherCode: " << weatherCode;
+void MainWindow::updateWeatherUISlot(int weatherCode, QString desc, int sunrise, int sunset){
 
+    // Set Image depending on weather
     QString fileExtension = "200.png";
 
     if(weatherCode >= 200 &&  weatherCode < 300){
@@ -559,9 +561,20 @@ void MainWindow::updateWeatherUISlot(int weatherCode, QString desc){
         fileExtension = "804.png";
     }
 
-
-
     QPixmap pm(":/img/res/img/"+fileExtension);
     ui->weatherImage->setPixmap(pm);
     ui->weatherDesc->setText(desc);
+
+    // Set Sunrise label
+    QDateTime timestamp;
+    timestamp.setTime_t(sunrise);
+    ui->lbl_showSunrise->setText(timestamp.toString("hh:mm"));
+
+    // Set Sunset label
+    timestamp.setTime_t(sunset);
+    ui->lbl_showSunset->setText(timestamp.toString("hh:mm"));
+
+
+
+
 }

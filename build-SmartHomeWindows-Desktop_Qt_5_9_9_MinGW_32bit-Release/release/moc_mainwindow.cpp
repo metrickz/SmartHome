@@ -21,8 +21,8 @@ QT_BEGIN_MOC_NAMESPACE
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_DEPRECATED
 struct qt_meta_stringdata_MainWindow_t {
-    QByteArrayData data[19];
-    char stringdata0[334];
+    QByteArrayData data[21];
+    char stringdata0[349];
 };
 #define QT_MOC_LITERAL(idx, ofs, len) \
     Q_STATIC_BYTE_ARRAY_DATA_HEADER_INITIALIZER_WITH_OFFSET(len, \
@@ -36,26 +36,29 @@ QT_MOC_LITERAL(1, 11, 15), // "updateWeatherUI"
 QT_MOC_LITERAL(2, 27, 0), // ""
 QT_MOC_LITERAL(3, 28, 11), // "weatherCode"
 QT_MOC_LITERAL(4, 40, 4), // "desc"
-QT_MOC_LITERAL(5, 45, 18), // "server_New_Connect"
-QT_MOC_LITERAL(6, 64, 16), // "socket_Read_Data"
-QT_MOC_LITERAL(7, 81, 19), // "socket_Disconnected"
-QT_MOC_LITERAL(8, 101, 14), // "serialReceived"
-QT_MOC_LITERAL(9, 116, 22), // "on_btn_lightOn_clicked"
-QT_MOC_LITERAL(10, 139, 23), // "on_btn_lightOff_clicked"
-QT_MOC_LITERAL(11, 163, 25), // "on_btn_shuttersUp_clicked"
-QT_MOC_LITERAL(12, 189, 27), // "on_btn_shuttersDown_clicked"
-QT_MOC_LITERAL(13, 217, 19), // "on_btn_tilt_clicked"
-QT_MOC_LITERAL(14, 237, 28), // "on_slider_light_valueChanged"
-QT_MOC_LITERAL(15, 266, 5), // "value"
-QT_MOC_LITERAL(16, 272, 27), // "on_slider_temp_valueChanged"
-QT_MOC_LITERAL(17, 300, 13), // "updateWeather"
-QT_MOC_LITERAL(18, 314, 19) // "updateWeatherUISlot"
+QT_MOC_LITERAL(5, 45, 7), // "sunrise"
+QT_MOC_LITERAL(6, 53, 6), // "sunset"
+QT_MOC_LITERAL(7, 60, 18), // "server_New_Connect"
+QT_MOC_LITERAL(8, 79, 16), // "socket_Read_Data"
+QT_MOC_LITERAL(9, 96, 19), // "socket_Disconnected"
+QT_MOC_LITERAL(10, 116, 14), // "serialReceived"
+QT_MOC_LITERAL(11, 131, 22), // "on_btn_lightOn_clicked"
+QT_MOC_LITERAL(12, 154, 23), // "on_btn_lightOff_clicked"
+QT_MOC_LITERAL(13, 178, 25), // "on_btn_shuttersUp_clicked"
+QT_MOC_LITERAL(14, 204, 27), // "on_btn_shuttersDown_clicked"
+QT_MOC_LITERAL(15, 232, 19), // "on_btn_tilt_clicked"
+QT_MOC_LITERAL(16, 252, 28), // "on_slider_light_valueChanged"
+QT_MOC_LITERAL(17, 281, 5), // "value"
+QT_MOC_LITERAL(18, 287, 27), // "on_slider_temp_valueChanged"
+QT_MOC_LITERAL(19, 315, 13), // "updateWeather"
+QT_MOC_LITERAL(20, 329, 19) // "updateWeatherUISlot"
 
     },
     "MainWindow\0updateWeatherUI\0\0weatherCode\0"
-    "desc\0server_New_Connect\0socket_Read_Data\0"
-    "socket_Disconnected\0serialReceived\0"
-    "on_btn_lightOn_clicked\0on_btn_lightOff_clicked\0"
+    "desc\0sunrise\0sunset\0server_New_Connect\0"
+    "socket_Read_Data\0socket_Disconnected\0"
+    "serialReceived\0on_btn_lightOn_clicked\0"
+    "on_btn_lightOff_clicked\0"
     "on_btn_shuttersUp_clicked\0"
     "on_btn_shuttersDown_clicked\0"
     "on_btn_tilt_clicked\0on_slider_light_valueChanged\0"
@@ -78,25 +81,25 @@ static const uint qt_meta_data_MainWindow[] = {
        1,       // signalCount
 
  // signals: name, argc, parameters, tag, flags
-       1,    2,   84,    2, 0x06 /* Public */,
+       1,    4,   84,    2, 0x06 /* Public */,
 
  // slots: name, argc, parameters, tag, flags
-       5,    0,   89,    2, 0x08 /* Private */,
-       6,    0,   90,    2, 0x08 /* Private */,
-       7,    0,   91,    2, 0x08 /* Private */,
-       8,    0,   92,    2, 0x08 /* Private */,
-       9,    0,   93,    2, 0x08 /* Private */,
-      10,    0,   94,    2, 0x08 /* Private */,
-      11,    0,   95,    2, 0x08 /* Private */,
-      12,    0,   96,    2, 0x08 /* Private */,
-      13,    0,   97,    2, 0x08 /* Private */,
-      14,    1,   98,    2, 0x08 /* Private */,
-      16,    1,  101,    2, 0x08 /* Private */,
-      17,    0,  104,    2, 0x08 /* Private */,
-      18,    2,  105,    2, 0x08 /* Private */,
+       7,    0,   93,    2, 0x08 /* Private */,
+       8,    0,   94,    2, 0x08 /* Private */,
+       9,    0,   95,    2, 0x08 /* Private */,
+      10,    0,   96,    2, 0x08 /* Private */,
+      11,    0,   97,    2, 0x08 /* Private */,
+      12,    0,   98,    2, 0x08 /* Private */,
+      13,    0,   99,    2, 0x08 /* Private */,
+      14,    0,  100,    2, 0x08 /* Private */,
+      15,    0,  101,    2, 0x08 /* Private */,
+      16,    1,  102,    2, 0x08 /* Private */,
+      18,    1,  105,    2, 0x08 /* Private */,
+      19,    0,  108,    2, 0x08 /* Private */,
+      20,    4,  109,    2, 0x08 /* Private */,
 
  // signals: parameters
-    QMetaType::Void, QMetaType::Int, QMetaType::QString,    3,    4,
+    QMetaType::Void, QMetaType::Int, QMetaType::QString, QMetaType::Int, QMetaType::Int,    3,    4,    5,    6,
 
  // slots: parameters
     QMetaType::Void,
@@ -108,10 +111,10 @@ static const uint qt_meta_data_MainWindow[] = {
     QMetaType::Void,
     QMetaType::Void,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int,   15,
-    QMetaType::Void, QMetaType::Int,   15,
+    QMetaType::Void, QMetaType::Int,   17,
+    QMetaType::Void, QMetaType::Int,   17,
     QMetaType::Void,
-    QMetaType::Void, QMetaType::Int, QMetaType::QString,    3,    4,
+    QMetaType::Void, QMetaType::Int, QMetaType::QString, QMetaType::Int, QMetaType::Int,    3,    4,    5,    6,
 
        0        // eod
 };
@@ -122,7 +125,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         MainWindow *_t = static_cast<MainWindow *>(_o);
         Q_UNUSED(_t)
         switch (_id) {
-        case 0: _t->updateWeatherUI((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 0: _t->updateWeatherUI((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         case 1: _t->server_New_Connect(); break;
         case 2: _t->socket_Read_Data(); break;
         case 3: _t->socket_Disconnected(); break;
@@ -135,13 +138,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         case 10: _t->on_slider_light_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 11: _t->on_slider_temp_valueChanged((*reinterpret_cast< int(*)>(_a[1]))); break;
         case 12: _t->updateWeather(); break;
-        case 13: _t->updateWeatherUISlot((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2]))); break;
+        case 13: _t->updateWeatherUISlot((*reinterpret_cast< int(*)>(_a[1])),(*reinterpret_cast< QString(*)>(_a[2])),(*reinterpret_cast< int(*)>(_a[3])),(*reinterpret_cast< int(*)>(_a[4]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::IndexOfMethod) {
         int *result = reinterpret_cast<int *>(_a[0]);
         {
-            typedef void (MainWindow::*_t)(int , QString );
+            typedef void (MainWindow::*_t)(int , QString , int , int );
             if (*reinterpret_cast<_t *>(_a[1]) == static_cast<_t>(&MainWindow::updateWeatherUI)) {
                 *result = 0;
                 return;
@@ -187,9 +190,9 @@ int MainWindow::qt_metacall(QMetaObject::Call _c, int _id, void **_a)
 }
 
 // SIGNAL 0
-void MainWindow::updateWeatherUI(int _t1, QString _t2)
+void MainWindow::updateWeatherUI(int _t1, QString _t2, int _t3, int _t4)
 {
-    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)) };
+    void *_a[] = { nullptr, const_cast<void*>(reinterpret_cast<const void*>(&_t1)), const_cast<void*>(reinterpret_cast<const void*>(&_t2)), const_cast<void*>(reinterpret_cast<const void*>(&_t3)), const_cast<void*>(reinterpret_cast<const void*>(&_t4)) };
     QMetaObject::activate(this, &staticMetaObject, 0, _a);
 }
 QT_WARNING_POP

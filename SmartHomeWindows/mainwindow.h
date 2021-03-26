@@ -6,8 +6,6 @@
 #include <QTcpSocket>
 #include <QSerialPort>
 
-#include "weatherupdatetimer.h"
-
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QNetworkAccessManager>
@@ -43,10 +41,10 @@ private slots:
     void on_slider_temp_valueChanged(int value);
 
     void updateWeather();
-    void updateWeatherUISlot(int weatherCode, QString desc);
+    void updateWeatherUISlot(int weatherCode, QString desc, int sunrise, int sunset);
 
 signals:
-    void updateWeatherUI(int weatherCode, QString desc);
+    void updateWeatherUI(int weatherCode, QString desc, int sunrise, int sunset);
 
 
 

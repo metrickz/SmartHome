@@ -11,12 +11,10 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
-    weatherupdatetimer.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
-    weatherupdatetimer.h
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
