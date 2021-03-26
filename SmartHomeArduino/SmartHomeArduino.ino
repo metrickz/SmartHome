@@ -53,7 +53,7 @@ float PID_value = 0;
 
 
 //PID factors
-int kp = 9;   int ki = 0.2;   int kd = 1.7;
+int kp = 30;   int ki = 0.2;   int kd = 1.7;
 
 // PID final values
 int PID_p = 0;    int PID_i = 0;    int PID_d = 0;
@@ -69,7 +69,7 @@ void setup() {
   Motor.setSpeed(5);
   dht.begin();
   Serial.println("DHT Sensor started");
-  BMP.init(BMP180_STANDARD);
+  //BMP.init(BMP180_STANDARD);
   Serial.println("BMP Sensor started");
   Serial.println("---- Sensors initialized");
 
@@ -98,43 +98,50 @@ void loop() {
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
-  pressure = BMP.readReducedPress(665);
+  //pressure = BMP.readReducedPress(665);
 
 
   /*---------------------------------------------------------------*/
   // PID controller
   /*---------------------------------------------------------------*/
+
+  if(setpoint > 22){
+    // Calculate error
+    PID_error = setpoint - PID_error;
   
-  // Calculate error
-  PID_error = setpoint - PID_error;
-
-  // Calculate P value
-  PID_p = kp * PID_error;
-
-  // Calculate I value withing a specific range
-  if(-1 < PID_error < 1)
-  {
-    PID_i = PID_i + (ki * PID_error);
+    // Calculate P value
+    PID_p = kp * PID_error;
+  
+    // Calculate I value withing a specific range
+    /*
+    if(-1 < PID_error < 1)
+    {
+      PID_i = PID_i + (ki * PID_error);
+    }
+  
+    // Calculate D value
+    timePrev = Time;                            
+    Time = millis();                            
+    elapsedTime = (Time - timePrev) / 1000; 
+    
+    PID_d = kd*((PID_error - previous_error)/elapsedTime);
+    */
+    // Sum of values
+    PID_value = PID_p + PID_i + PID_d;
+  
+    // range has to be within 1 byte
+    if(PID_value < 0){
+      Serial.print("<10:"+String(-1)+">");
+      PID_value = 0;  
+    } 
+    if(PID_value > 255){
+        PID_value = 255;  
+      Serial.print("<10:"+String(PID_value)+">");
+    }     
+    Serial2.write((int)PID_value);
+    previous_error = PID_error; 
   }
-
-  // Calculate D value
-  timePrev = Time;                            
-  Time = millis();                            
-  elapsedTime = (Time - timePrev) / 1000; 
   
-  PID_d = kd*((PID_error - previous_error)/elapsedTime);
-  
-  // Sum of values
-  PID_value = PID_p + PID_i + PID_d;
-
-  // range has to be within 1 byte
-  if(PID_value < 0)
-      PID_value = 0;    
-  if(PID_value > 255)  
-      PID_value = 255;  
-
-  Serial2.write((int)PID_value);
-  previous_error = PID_error; 
   
   
 
@@ -188,7 +195,7 @@ ISR(TIMER3_COMPA_vect){
   Serial.print("<6:"+String(humidty)+">");
   Serial.print("<7:"+String(brightness)+">");
   Serial.print("<8:"+String(pressure)+">");
-  Serial.print("<10:"+String(PID_value)+">");
+  
 }
 
 
