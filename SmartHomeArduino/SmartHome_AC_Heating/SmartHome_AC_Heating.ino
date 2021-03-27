@@ -16,7 +16,7 @@ void setup() {
 void loop() {
   if (Serial.available() > 0) {
     inputByte = Serial.read();
-    dimValue = 255-inputByte/2;
+    dimValue = 255-inputByte/4; // Limit Heating element
 
   }
 
