@@ -27,10 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
     //      Start Timer for weather data update
     /* ------------------------------------------------------------------------------*/
 
-
-    // Whenever an API call was made, send the weather info to updateWeatherUISlot, this updates the images
-    QObject::connect(this, SIGNAL(updateWeatherUI(int, QString, int, int)),this, SLOT(updateWeatherUISlot(int, QString, int, int)));
-
     // This makes an API call
     manager = new QNetworkAccessManager();
 
@@ -60,21 +56,22 @@ MainWindow::MainWindow(QWidget *parent)
             int sunrise = sysBranch.toObject().value("sunrise").toInt();
             int sunset = sysBranch.toObject().value("sunset").toInt();
 
-
             emit updateWeatherUI(weatherCode, desc, sunrise, sunset);
 
         }
     );
 
+    // Whenever an API call was made, send the weather info to updateWeatherUISlot, this updates the images
+    QObject::connect(this, SIGNAL(updateWeatherUI(int, QString, int, int)),this, SLOT(updateWeatherUISlot(int, QString, int, int)));
+
     // Get weather directly after program start
-    request.setUrl(QUrl("http://api.openweathermap.org/data/2.5/weather?q=Apfeltrach&appid=d384c6a1b72e0adf71db8f11cf52f0db"));
+    request.setUrl(QUrl("http://api.openweathermap.org/data/2.5/weather?q=Munich&appid=obid384c6a1b72e0adf71db8f11cf52f0db"));
     manager->get(request);
 
     // Get wather every x milliseconds
     QTimer *timer = new QTimer(this);
     connect(timer, SIGNAL(timeout()), this, SLOT(updateWeather()));
     timer->start(180000);
-
 
 
     /* ------------------------------------------------------------------------------*/
@@ -151,7 +148,6 @@ void MainWindow::server_New_Connect()
     //Connect the signal slot of the QTcpSocket to read the new data
     QObject::connect(socket, &QTcpSocket::readyRead, this, &MainWindow::socket_Read_Data);
     QObject::connect(socket, &QTcpSocket::disconnected, this, &MainWindow::socket_Disconnected);
-    //Send key enablement
 
     qDebug() << "A Client connect!";
     ui->connectionState->setText("Phone connected");
@@ -190,11 +186,10 @@ void MainWindow::socket_Read_Data()
     if(!buffer.isEmpty())
     {
         QString str = buffer;
-
         QString msg;
 
+        // Parse data
         bool startMessage = false;
-
         for(int i=0;i<str.length();i++){
             if(str.at(i) == '<'){
                 startMessage = true;
@@ -213,6 +208,7 @@ void MainWindow::socket_Read_Data()
 
                     qDebug() << "TCP in: Device "+ QString::number(device) + " Value: "+ QString::number(value);
 
+                    // Forward instruction to serial port and update UI
                     switch(device){
                         case 1:
                             if(value==0){
@@ -340,6 +336,12 @@ void MainWindow::serialReceived()
                     break;
                 case 10:
                     ui->display_PIDvalue->setText(value);
+                    break;
+                case 11:
+                    ui->PID_showSetpoint->setText(value);
+                    break;
+                case 12:
+                    ui->PID_showError->setText(value);
                 }
 
 
@@ -389,7 +391,9 @@ void MainWindow::on_btn_lightOn_clicked()
         socket->write(message);
         socket->flush();
     }
-    serial->write(message);
+    if(serial->isOpen()){
+        serial->write(message);
+    }
 
 
     ui->btn_lightOff->setEnabled(true);
@@ -456,8 +460,6 @@ void MainWindow::on_btn_shuttersDown_clicked()
 
 void MainWindow::on_btn_tilt_clicked()
 {
-
-
     if(ui->btn_tilt->text() == "Tilt"){
         QByteArray message = makeSendable(3,1);
 
@@ -474,8 +476,6 @@ void MainWindow::on_btn_tilt_clicked()
         }
 
     }else{
-
-
         QByteArray message = makeSendable(3,0);
 
         if(socket->state() == QAbstractSocket::ConnectedState)
@@ -488,9 +488,7 @@ void MainWindow::on_btn_tilt_clicked()
             serial->write(message);
             ui->btn_tilt->setText("Tilt");
         }
-
     }
-
 }
 
 
@@ -531,10 +529,8 @@ void MainWindow::updateWeather()
 }
 
 void MainWindow::updateWeatherUISlot(int weatherCode, QString desc, int sunrise, int sunset){
-
     // Set Image depending on weather
     QString fileExtension = "200.png";
-
     if(weatherCode >= 200 &&  weatherCode < 300){
         fileExtension = "200.png";
     }else if(weatherCode >= 300 && weatherCode < 400){
@@ -560,9 +556,11 @@ void MainWindow::updateWeatherUISlot(int weatherCode, QString desc, int sunrise,
     }else if(weatherCode == 804){
         fileExtension = "804.png";
     }
-
     QPixmap pm(":/img/res/img/"+fileExtension);
     ui->weatherImage->setPixmap(pm);
+
+
+    // Set Description label
     ui->weatherDesc->setText(desc);
 
     // Set Sunrise label
@@ -573,8 +571,4 @@ void MainWindow::updateWeatherUISlot(int weatherCode, QString desc, int sunrise,
     // Set Sunset label
     timestamp.setTime_t(sunset);
     ui->lbl_showSunset->setText(timestamp.toString("hh:mm"));
-
-
-
-
 }

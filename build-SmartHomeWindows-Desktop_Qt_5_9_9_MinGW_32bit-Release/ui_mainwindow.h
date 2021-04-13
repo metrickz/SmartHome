@@ -62,6 +62,10 @@ public:
     QLabel *lbl_Sunset;
     QLabel *lbl_showSunrise;
     QLabel *lbl_showSunset;
+    QLabel *PID_setpoint;
+    QLabel *PID_showSetpoint;
+    QLabel *PID_error;
+    QLabel *PID_showError;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -297,14 +301,14 @@ public:
         weatherDesc->setAlignment(Qt::AlignCenter);
         PID_value_text = new QLabel(centralwidget);
         PID_value_text->setObjectName(QStringLiteral("PID_value_text"));
-        PID_value_text->setGeometry(QRect(310, 350, 111, 21));
+        PID_value_text->setGeometry(QRect(570, 350, 111, 21));
         PID_value_text->setFont(font);
         PID_value_text->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
 "font: 75 12pt \"MS Shell Dlg 2\";\n"
 ""));
         display_PIDvalue = new QLabel(centralwidget);
         display_PIDvalue->setObjectName(QStringLiteral("display_PIDvalue"));
-        display_PIDvalue->setGeometry(QRect(460, 350, 111, 21));
+        display_PIDvalue->setGeometry(QRect(720, 350, 111, 21));
         display_PIDvalue->setFont(font);
         display_PIDvalue->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
 "font: 75 12pt \"MS Shell Dlg 2\";\n"
@@ -337,6 +341,34 @@ public:
         lbl_showSunset->setObjectName(QStringLiteral("lbl_showSunset"));
         lbl_showSunset->setGeometry(QRect(700, 170, 71, 21));
         lbl_showSunset->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        PID_setpoint = new QLabel(centralwidget);
+        PID_setpoint->setObjectName(QStringLiteral("PID_setpoint"));
+        PID_setpoint->setGeometry(QRect(570, 320, 111, 21));
+        PID_setpoint->setFont(font);
+        PID_setpoint->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        PID_showSetpoint = new QLabel(centralwidget);
+        PID_showSetpoint->setObjectName(QStringLiteral("PID_showSetpoint"));
+        PID_showSetpoint->setGeometry(QRect(720, 320, 111, 21));
+        PID_showSetpoint->setFont(font);
+        PID_showSetpoint->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        PID_error = new QLabel(centralwidget);
+        PID_error->setObjectName(QStringLiteral("PID_error"));
+        PID_error->setGeometry(QRect(570, 290, 111, 21));
+        PID_error->setFont(font);
+        PID_error->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
+"font: 75 12pt \"MS Shell Dlg 2\";\n"
+""));
+        PID_showError = new QLabel(centralwidget);
+        PID_showError->setObjectName(QStringLiteral("PID_showError"));
+        PID_showError->setGeometry(QRect(720, 290, 111, 21));
+        PID_showError->setFont(font);
+        PID_showError->setStyleSheet(QLatin1String("color: rgb(40, 40, 40);\n"
 "font: 75 12pt \"MS Shell Dlg 2\";\n"
 ""));
         MainWindow->setCentralWidget(centralwidget);
@@ -382,6 +414,10 @@ public:
         lbl_Sunset->setText(QApplication::translate("MainWindow", "Sunset", Q_NULLPTR));
         lbl_showSunrise->setText(QApplication::translate("MainWindow", "-", Q_NULLPTR));
         lbl_showSunset->setText(QApplication::translate("MainWindow", "-", Q_NULLPTR));
+        PID_setpoint->setText(QApplication::translate("MainWindow", "Setpoint ", Q_NULLPTR));
+        PID_showSetpoint->setText(QString());
+        PID_error->setText(QApplication::translate("MainWindow", "Error", Q_NULLPTR));
+        PID_showError->setText(QApplication::translate("MainWindow", "Error", Q_NULLPTR));
     } // retranslateUi
 
 };

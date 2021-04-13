@@ -630,7 +630,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
    <widget class="QLabel" name="PID_value_text">
     <property name="geometry">
      <rect>
-      <x>310</x>
+      <x>570</x>
       <y>350</y>
       <width>111</width>
       <height>21</height>
@@ -657,7 +657,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
    <widget class="QLabel" name="display_PIDvalue">
     <property name="geometry">
      <rect>
-      <x>460</x>
+      <x>720</x>
       <y>350</y>
       <width>111</width>
       <height>21</height>
@@ -769,6 +769,114 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
     </property>
     <property name="text">
      <string>-</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PID_setpoint">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>320</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(40, 40, 40);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string>Setpoint </string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PID_showSetpoint">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>320</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(40, 40, 40);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PID_error">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>290</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(40, 40, 40);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string>Error</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="PID_showError">
+    <property name="geometry">
+     <rect>
+      <x>720</x>
+      <y>290</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>12</pointsize>
+      <weight>9</weight>
+      <italic>false</italic>
+      <bold>false</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: rgb(40, 40, 40);
+font: 75 12pt &quot;MS Shell Dlg 2&quot;;
+</string>
+    </property>
+    <property name="text">
+     <string>Error</string>
     </property>
    </widget>
   </widget>

@@ -31,7 +31,6 @@ private slots:
 
     void serialReceived();
 
-
     void on_btn_lightOn_clicked();
     void on_btn_lightOff_clicked();
     void on_btn_shuttersUp_clicked();

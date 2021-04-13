@@ -107,7 +107,7 @@ void loop() {
 
   if(setpoint > 22){
     // Calculate error
-    PID_error = setpoint - PID_error;
+    PID_error = setpoint - temperature;
   
     // Calculate P value
     PID_p = kp * PID_error;
@@ -131,15 +131,15 @@ void loop() {
   
     // range has to be within 1 byte
     if(PID_value < 0){
-      Serial.print("<10:"+String(-1)+">");
       PID_value = 0;  
     } 
     if(PID_value > 255){
         PID_value = 255;  
-      Serial.print("<10:"+String(PID_value)+">");
     }     
     Serial2.write((int)PID_value);
     previous_error = PID_error; 
+  }else{
+    Serial2.write(0);
   }
   
   
@@ -195,6 +195,10 @@ ISR(TIMER3_COMPA_vect){
   Serial.print("<6:"+String(humidty)+">");
   Serial.print("<7:"+String(brightness)+">");
   Serial.print("<8:"+String(pressure)+">");
+
+  Serial.print("<10:"+String(PID_value)+">");
+  Serial.print("<11:"+String(setpoint)+">");
+  Serial.print("<12:"+String(PID_error)+">");
   
 }
 
