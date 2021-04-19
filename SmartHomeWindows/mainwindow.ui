@@ -876,7 +876,7 @@ font: 75 12pt &quot;MS Shell Dlg 2&quot;;
 </string>
     </property>
     <property name="text">
-     <string>Error</string>
+     <string/>
     </property>
    </widget>
   </widget>

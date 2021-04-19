@@ -9,7 +9,6 @@
 
 
 // SETUP PINS
-
 #define SERVO_SHUTTERS  8   //Output
 #define MOTOR_PIN_1     22  // Output
 #define MOTOR_PIN_2     23  // Output
@@ -17,9 +16,6 @@
 #define MOTOR_PIN_4     25  // Output
 #define DHT11_IN        26  // Input
 #define BRIGHTNESS_IN   A0  // Input
-#define ALTITUDE        700
-
-
 
 
 DHT         dht(DHT11_IN, DHT11);
@@ -42,6 +38,7 @@ boolean shutterIsOpened = true;
 int steps = 0;
 int dimming = 0;
 int pressure = 0;
+int altitude = 700;
 
 
 // PID variables
@@ -50,7 +47,6 @@ float PID_error = 0;
 float previous_error = 0;
 float elapsedTime, Time, timePrev;
 float PID_value = 0;
-
 
 //PID factors
 int kp = 30;   int ki = 0.2;   int kd = 1.7;
@@ -61,19 +57,13 @@ int PID_p = 0;    int PID_i = 0;    int PID_d = 0;
 
 void setup() {
   Serial.begin(115200);   // Initialize serial port for communication with host pc
-  Serial1.begin(115200);  // Initialize serial port for communication with dimmer arduino
-
-  Serial.println("SETUP");
-
+  Serial1.begin(115200);  // Initialize serial port for communication with dimmer1 arduino
+  Serial2.begin(115200);  // Initialize serial port for communication with dimmer2 arduino
   
   Motor.setSpeed(5);
   dht.begin();
-  Serial.println("DHT Sensor started");
-  //BMP.init(BMP180_STANDARD);
-  Serial.println("BMP Sensor started");
-  Serial.println("---- Sensors initialized");
+  BMP.init(BMP180_STANDARD);
 
-  
 
 
   // Timer 3 (16Bit)
@@ -86,7 +76,6 @@ void setup() {
   TIMSK3 |= (1 << OCIE3A); // enable timer1 compare interrupt
   TCCR3B |= (1 << CS12) | (1 << CS10);    // Prescaler 1024
   sei();
-  Serial.print("Timer interrupt set...");
 }
 
 
@@ -98,7 +87,7 @@ void loop() {
   brightness = analogRead(BRIGHTNESS_IN);
   temperature = dht.readTemperature(); 
   humidty = dht.readHumidity();
-  //pressure = BMP.readReducedPress(665);
+  pressure = BMP.readReducedPress(altitude);
 
 
   /*---------------------------------------------------------------*/
@@ -113,7 +102,6 @@ void loop() {
     PID_p = kp * PID_error;
   
     // Calculate I value withing a specific range
-    /*
     if(-1 < PID_error < 1)
     {
       PID_i = PID_i + (ki * PID_error);
@@ -125,7 +113,7 @@ void loop() {
     elapsedTime = (Time - timePrev) / 1000; 
     
     PID_d = kd*((PID_error - previous_error)/elapsedTime);
-    */
+    
     // Sum of values
     PID_value = PID_p + PID_i + PID_d;
   
@@ -162,13 +150,13 @@ void loop() {
   if(shuttersDown == true && shutterIsClosed == false){
     Motor.step(1);
     steps++;
-    Serial.print("<9:"+String(steps)+">");     // Shutters
+    Serial.print("<9:"+String(steps)+">");     
   }
 
   if(shuttersUp == true && shutterIsOpened == false){
     Motor.step(-1);
     steps--;
-    Serial.print("<9:"+String(steps)+">");     // Shutters
+    Serial.print("<9:"+String(steps)+">");     
   }
 
   // Software Limit Switch for Shutters
@@ -199,7 +187,6 @@ ISR(TIMER3_COMPA_vect){
   Serial.print("<10:"+String(PID_value)+">");
   Serial.print("<11:"+String(setpoint)+">");
   Serial.print("<12:"+String(PID_error)+">");
-  
 }
 
 
@@ -265,11 +252,9 @@ void processData() {
         if(value==0){
           shuttersUp = true;
           shuttersDown = false;
-          //Motor.step(2048);
         }else if(value==1){
           shuttersDown = true;
           shuttersUp = false;
-          //Motor.step(-2048);
         }
         break;
 
@@ -287,6 +272,8 @@ void processData() {
           servo_tiltWindow.detach();
         }
         break;
+
+        // Set Temperature
       case 4:
         int mapped_val = map(value, 0, 255, 22, 28);
         setpoint = mapped_val;

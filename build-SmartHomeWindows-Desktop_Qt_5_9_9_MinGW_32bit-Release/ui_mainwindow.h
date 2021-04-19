@@ -417,7 +417,7 @@ public:
         PID_setpoint->setText(QApplication::translate("MainWindow", "Setpoint ", Q_NULLPTR));
         PID_showSetpoint->setText(QString());
         PID_error->setText(QApplication::translate("MainWindow", "Error", Q_NULLPTR));
-        PID_showError->setText(QApplication::translate("MainWindow", "Error", Q_NULLPTR));
+        PID_showError->setText(QString());
     } // retranslateUi
 
 };
