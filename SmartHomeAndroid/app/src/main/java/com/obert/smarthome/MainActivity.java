@@ -61,10 +61,7 @@ public class MainActivity extends AppCompatActivity {
 
         networkTask = new NetworkTask(MainActivity.this,this);
         networkTask.execute(savedIP);
-
-
-
-
+        
 
         btn_settings.setOnClickListener(new View.OnClickListener() {
             @Override
