@@ -65,7 +65,7 @@ MainWindow::MainWindow(QWidget *parent)
     QObject::connect(this, SIGNAL(updateWeatherUI(int, QString, int, int)),this, SLOT(updateWeatherUISlot(int, QString, int, int)));
 
     // Get weather directly after program start
-    request.setUrl(QUrl("http://api.openweathermap.org/data/2.5/weather?q=Munich&appid=obid384c6a1b72e0adf71db8f11cf52f0db"));
+    request.setUrl(QUrl("http://api.openweathermap.org/data/2.5/weather?q=Munich&appid=API_KEY"));
     manager->get(request);
 
     // Get wather every x milliseconds
