@@ -1,5 +1,9 @@
 ## HYBRIDISED WEB-MOBILE HUMAN-MACHINE-INTERFACE (HMI) FOR SMART HOME APPLICATIONS
 
+# Find the complete report and presentation on my Google drive
+https://drive.google.com/file/d/1XFgznWm6yscY92oTt-B7gH8XicNCe4G3/view?usp=sharing
+https://drive.google.com/file/d/1RDCEbw6Kwd89Xe1_6uOv8NhPHzXDFkEj/view?usp=sharing
+
 # Background
 - Machines still rely on mental abilities of their user
 - Machines become more and more complex
